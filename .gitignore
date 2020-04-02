@@ -1,0 +1,4 @@
+*.xlsx
+.vscode
+__pycache__
+*.log
