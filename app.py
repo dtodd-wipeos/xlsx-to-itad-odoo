@@ -27,8 +27,8 @@ LAST_ROW = 2064 # The last row that there is any data
 LAST_COL = 6 # The last column to read from in each row
 
 # Odoo Stuff
-ASSET_CATALOG_ID = 3225 # The database ID of the asset catalog we are importing into
-DATA_DESTRUCTION_ID = 1657 # The database ID of the data destruction we are importing into
+ASSET_CATALOG_ID = None # The database ID of the asset catalog we are importing into
+DATA_DESTRUCTION_ID = None # The database ID of the data destruction we are importing into
 
 class Record:
     """
