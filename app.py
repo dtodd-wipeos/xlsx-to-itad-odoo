@@ -223,6 +223,14 @@ class ProcessWorkbook:
 
         return self
 
+    def get_records(self):
+        """
+            Deprecated, use `build_record_list` instead.
+        """
+        print('get_records is deprecated and will be removed in the future.')
+        print('Please use `build_record_list` instead.')
+        return self.build_record_list()
+
     def show_records(self):
         """
             Pretty Prints a JSON string for all

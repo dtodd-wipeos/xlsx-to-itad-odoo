@@ -12,6 +12,10 @@ The types of records that are created are:
 * Asset Catalog Lines - These records are what appear in the asset catalog table. Each one is a line item
 * Data Destruction Lines - These records are what appear in the data destruction table. Each one is a line item
 
+## Version
+
+The current version is 1.1.0. Please check changelog.md for more information.
+
 ## Usage
 
 This was designed to parse a very specific spreadsheet, and may work on others that are similar in layout.
