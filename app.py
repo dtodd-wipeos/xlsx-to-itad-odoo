@@ -127,7 +127,46 @@ class ProcessWorkbook:
             return True
         return False
 
-    def get_records(self):
+    def create_record_from_row(self, row, parent=True, search_model=True):
+        """
+            With a provided `row`, this method will first search
+            for a matching serial number and if it doesn't exist,
+            a new Record will be created with that row's data
+
+            `parent` is an optional argument that sets the `last_parent`
+            attribute. `last_parent` is used to append new Records to
+            a parent's `children` attribute.
+
+            `search_model` is an optional argument that when True
+            will search Odoo for that record's model (to be created
+            if it can't be found)
+
+            If the serial number isn't in the list, this returns the
+            created Record object. Otherwise, it returns False
+        """
+        if not self.serial_in_records(str(row[0].value)):
+            record = Record(
+                serial = str(row[0].value),
+                asset_tag = str(row[1].value),
+                make = str(row[3].value),
+                model = str(row[4].value),
+                device_type = str(row[5].value),
+                children = None
+            )
+
+            if parent:
+                record.children = list()
+                self.last_parent = record
+
+            if search_model:
+                # Add unique models so we can search for their sellable ids
+                if record.model not in itertools.chain(*self.models_to_search):
+                    self.models_to_search.append((record.make, record.model))
+
+            return record
+        return False
+
+    def build_record_list(self):
         """
             Reads the workbook and sorts each row into
             multiple instances of the Record class.
@@ -141,6 +180,9 @@ class ProcessWorkbook:
             record, it gets appended to the `children`
             list of the stored parent object.
 
+            When there is no relationship, the Record
+            will still be created, without any Children
+
             Returns `self` (this instance of ProcessWorkbook)
         """
         print('Getting rows from the spreadsheet and sorting relationships')
@@ -150,41 +192,22 @@ class ProcessWorkbook:
             max_row=LAST_ROW
         ):
 
-            serial = str(row[0].value)
             relationship = row[2].value
 
             if relationship == 'Parent':
-                if not self.serial_in_records(serial):
-                    record = Record(
-                        serial = serial,
-                        asset_tag = str(row[1].value),
-                        make = str(row[3].value),
-                        model = str(row[4].value),
-                        device_type = str(row[5].value)
-                    )
+                record = self.create_record_from_row(row, True)
+                if record:
                     self.records.append(record)
-                    self.last_parent = record
-
-                    # Add unique models so we can search for their sellable ids
-                    if record.model not in itertools.chain(*self.models_to_search):
-                        self.models_to_search.append((record.make, record.model))
 
             elif relationship == 'Child':
-                last_parent_children = self.last_parent.children
-
-                if not self.serial_in_records(serial, last_parent_children):
-                    record = Record(
-                        serial = serial,
-                        asset_tag = str(row[1].value),
-                        make = str(row[3].value),
-                        model = str(row[4].value),
-                        device_type = str(row[5].value),
-                        children = None
-                    )
-                    last_parent_children.append(record)
+                record = self.create_record_from_row(row, False, False)
+                if record:
+                    self.last_parent.children.append(record)
 
             else:
-                pass
+                self.create_record_from_row(row, False)
+                if record:
+                    self.records.append(record)
 
         return self
 
@@ -251,6 +274,75 @@ class ProcessWorkbook:
 
         return self
 
+    def _create_asset_catalog_line(self, record):
+        """
+            With the provided `record` (Record) instance,
+            this method will issue an API request to Odoo
+            to create the line item
+        """
+        if self.get_id_from_model(record.model):
+            result = self.api.do_create(
+                'erpwarehouse.asset',
+                {
+                    'catalog': ASSET_CATALOG_ID,
+                    'make': self.get_id_from_model(record.model),
+                    'serial': record.serial,
+                    'tag': record.asset_tag,
+                })
+            print('Added id: %s' % (result))
+        else:
+            print('Unable to add %s as there is no sellable id' % (record.serial))
+
+        return self
+
+    def _set_device_type(self, record, child=False):
+        """
+            With the provided `record` and optional `child`,
+            this method determines the device type for data
+            destruction.
+
+            By default, it is '0', which means None
+        """
+        device_type = '0'
+        if record.device_type == 'Hard Drive':
+            device_type = 'H'
+        elif record.device_type == 'Network':
+            device_type = 'N'
+        elif record.device_type == 'Tape':
+            device_type = 'T'
+
+        if child:
+            if child.device_type == 'Hard Drive':
+                device_type = 'H'
+            elif child.device_type == 'Network':
+                device_type = 'N'
+            elif child.device_type == 'Tape':
+                device_type = 'T'
+
+        return device_type
+
+    def _create_data_destruction_line(self, record, child=False):
+        """
+            With the provided `record` and optional `child` Record
+            instances, this method will issue an API request to
+            Odoo to create the line item
+        """
+        if self.get_id_from_model(record.model):
+            result = self.api.do_create(
+                'erpwarehouse.ddl_item',
+                {
+                    'ddl': DATA_DESTRUCTION_ID,
+                    'make': self.get_id_from_model(record.model),
+                    'serial': record.serial,
+                    'storser': child.serial if child else 'N/A',
+                    'type': self._set_device_type(record, child),
+                })
+            print('Added id: %s' % (result))
+        else:
+            print('Unable to add %s as there is no sellable id' % (record.serial))
+
+        return self
+
     def create_line_items(self):
         """
             For all the records that we can
@@ -263,55 +355,15 @@ class ProcessWorkbook:
         print('Creating Line items for accepted records in Odoo')
         for record in self.records:
 
-            # Is the model one that we have the id for
-            if self.get_id_from_model(record.model):
-                result = self.api.do_create(
-                    'erpwarehouse.asset',
-                    {
-                        'catalog': ASSET_CATALOG_ID,
-                        'make': self.get_id_from_model(record.model),
-                        'serial': record.serial,
-                        'tag': record.asset_tag,
-                    })
-                print('Added id: %s' % (result))
+            if ASSET_CATALOG_ID:
+                self._create_asset_catalog_line(record)
 
+            if DATA_DESTRUCTION_ID:
                 if not record.children:
-                    device_type = '0'
-                    if record.device_type == 'Network':
-                        device_type = 'N'
-                    elif record.device_type == 'Tape':
-                        device_type = 'T'
-
-                    result = self.api.do_create(
-                        'erpwarehouse.ddl_item',
-                        {
-                            'ddl': DATA_DESTRUCTION_ID,
-                            'make': self.get_id_from_model(record.model),
-                            'serial': record.serial,
-                            'storser': 'N/a',
-                            'type': device_type,
-                        }
-                    )
-                    print('Added id: %s' % (result))
+                    self._create_data_destruction_line(record)
                 else:
                     for child in record.children:
-                        device_type = '0'
-                        if child.device_type == 'Hard Drive':
-                            device_type = 'H'
-
-                        result = self.api.do_create(
-                            'erpwarehouse.ddl_item',
-                            {
-                                'ddl': DATA_DESTRUCTION_ID,
-                                'make': self.get_id_from_model(record.model),
-                                'serial': record.serial,
-                                'storser': child.serial,
-                                'type': device_type,
-                            }
-                        )
-                        print('Added id: %s' % (result))
-            else:
-                print('Unable to add %s as there is no sellable id' % (record.serial))
+                        self._create_data_destruction_line(record, child)
 
         return self
 
@@ -319,7 +371,7 @@ class ProcessWorkbook:
         """
             Runs everything in the order that is required
         """
-        self.get_records()
+        self.build_record_list()
         self.get_odoo_model_ids()
         self.create_missing_model_ids()
         self.create_line_items()
