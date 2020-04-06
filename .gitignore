@@ -1,4 +1,6 @@
 *.xlsx
+*.xlsm
 .vscode
 __pycache__
-*.log
+*.log*
+.~lock*
