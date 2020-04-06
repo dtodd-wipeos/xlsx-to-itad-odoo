@@ -26,9 +26,13 @@ FIRST_ROW = 2 # Assumes that the actual first row is a header
 LAST_ROW = 2064 # The last row that there is any data
 LAST_COL = 6 # The last column to read from in each row
 
+# Items in this list will not be checked for pre-existing records
+# and new records will always be created (at the risk of duplicate data)
+SERIALS_TO_IGNORE = []
+
 # Odoo Stuff
-ASSET_CATALOG_ID = 3225 # The database ID of the asset catalog we are importing into
-DATA_DESTRUCTION_ID = 1657 # The database ID of the data destruction we are importing into
+ASSET_CATALOG_ID = 4525 # The database ID of the asset catalog we are importing into
+DATA_DESTRUCTION_ID = None # The database ID of the data destruction we are importing into
 
 class Record:
     """
@@ -93,6 +97,12 @@ class ProcessWorkbook:
         self.models_to_create = list()
         # The Tuples here will be of the format ((make, model), id)
         self.models_to_ids = list()
+
+        # Serials that match items in this list will always
+        # be returned False from `self.serial_in_records`
+        self.serials_to_ignore = [None, '', 'N/A']
+        self.serials_to_ignore.extend(SERIALS_TO_IGNORE)
+
         print('Initialized ProcessWorkbook')
 
     def get_id_from_model(self, model):
@@ -123,6 +133,8 @@ class ProcessWorkbook:
         """
         if records is None:
             records = self.records
+        if serial in self.serials_to_ignore:
+            return False
         if serial in [record.serial for record in records if record.serial]:
             return True
         return False
@@ -205,11 +217,19 @@ class ProcessWorkbook:
                     self.last_parent.children.append(record)
 
             else:
-                self.create_record_from_row(row, False)
+                record = self.create_record_from_row(row, False)
                 if record:
                     self.records.append(record)
 
         return self
+
+    def get_records(self):
+        """
+            Deprecated, use `build_record_list` instead.
+        """
+        print('get_records is deprecated and will be removed in the future.')
+        print('Please use `build_record_list` instead.')
+        return self.build_record_list()
 
     def show_records(self):
         """

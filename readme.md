@@ -12,6 +12,10 @@ The types of records that are created are:
 * Asset Catalog Lines - These records are what appear in the asset catalog table. Each one is a line item
 * Data Destruction Lines - These records are what appear in the data destruction table. Each one is a line item
 
+## Version
+
+The current version is 1.1.0. Please check changelog.md for more information.
+
 ## Usage
 
 This was designed to parse a very specific spreadsheet, and may work on others that are similar in layout.
@@ -24,5 +28,6 @@ The ideas within this application should be able to be adapted towards processin
 1. Edit `app.py` and modify the constants (all capital letters) at the top to reflect your spreadsheet and Odoo configuration
     * Spreadsheet configuration includes: Filename (relative or absolute), the Sheet to work from, as well as the rows and columns to fetch
     * Odoo configuration includes: Asset Catalog ID and Data Destruction ID. These are both the database ids of their respective forms. Used to connect the line items to specific records
+    * `SERIALS_TO_IGNORE` specifies a list of serial numbers to not check for duplicates and to always create new records
 6. Enter the virtual environment - `pipenv shell`
 1. Start the application - `./run.sh | tee output.log` - This can take a couple minutes depending on how big the spreadsheet is
