@@ -17,6 +17,7 @@
 import csv
 import time
 import json
+import logging
 import itertools
 from pprint import pprint
 
@@ -40,6 +41,14 @@ SPECIAL_FIELDS = ['serial', 'asset_tag', 'make', 'model', 'device_type', 'childr
 # Odoo Stuff
 ASSET_CATALOG_ID = 4525 # The database ID of the asset catalog we are importing into
 DATA_DESTRUCTION_ID = None # The database ID of the data destruction we are importing into
+
+# Logging
+logging.basicConfig(
+    filename='logs/%s.log' % (time.time()),
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%m/%d/%Y %I:%M:%S %p'
+)
 
 class Record:
     """
@@ -128,7 +137,7 @@ class ProcessWorkbook:
         self.serials_to_ignore = [None, '', 'N/A']
         self.serials_to_ignore.extend(SERIALS_TO_IGNORE)
 
-        print('Initialized ProcessWorkbook')
+        logging.info('Initialized ProcessWorkbook')
 
     def __del__(self):
         """
@@ -136,7 +145,7 @@ class ProcessWorkbook:
         """
         self.special_csv_file.close()
 
-        print('ProcessWorkbook Finished')
+        logging.info('ProcessWorkbook Finished')
 
     def get_id_from_model(self, model):
         """
@@ -198,6 +207,7 @@ class ProcessWorkbook:
         serial = str(row[0].value)
         if not self.serial_in_records(serial):
             # pylint: disable=bad-whitespace
+            logging.debug('Creating Record for %s', (serial))
             record = Record(
                 serial = serial,
                 asset_tag = str(row[1].value),
@@ -238,7 +248,7 @@ class ProcessWorkbook:
 
             Returns `self` (this instance of ProcessWorkbook)
         """
-        print('Getting rows from the spreadsheet and sorting relationships')
+        logging.info('Getting rows from the spreadsheet and sorting relationships')
         # pylint: disable=bad-continuation
         for row in self.workbook.iter_rows(
             min_row=FIRST_ROW,
@@ -269,8 +279,8 @@ class ProcessWorkbook:
         """
             Deprecated, use `build_record_list` instead.
         """
-        print('get_records is deprecated and will be removed in the future.')
-        print('Please use `build_record_list` instead.')
+        logging.warning('get_records is deprecated and will be removed in the future.')
+        logging.warning('Please use `build_record_list` instead.')
         return self.build_record_list()
 
     def show_records(self):
@@ -279,7 +289,7 @@ class ProcessWorkbook:
             of the records that are stored
         """
         # pylint: disable=unnecessary-comprehension
-        pprint([record for record in self.records])
+        logging.info(pprint([record for record in self.records]))
 
     def get_odoo_model_ids(self):
         """
@@ -289,17 +299,17 @@ class ProcessWorkbook:
             contains a mapping between each unique model
             name and the database id.
 
-            When a model can't be found, that model is printed
+            When a model can't be found, that model is logged
             so that a manual search can be done, or a new item
             can be created.
 
             When a model returns multiple ids, that model is
-            printed so that a manual search can be done to
+            logged so that a manual search can be done to
             select the "correct" database id.
 
             Returns `self` (this instance of ProcessWorkbook)
         """
-        print('Searching Odoo for sellable items with matching models')
+        logging.info('Searching Odoo for sellable items with matching models')
         for model in self.models_to_search:
             odoo_records = self.api.do_search_and_read(
                 'erpwarehouse.sellable',
@@ -307,7 +317,7 @@ class ProcessWorkbook:
             )
 
             if not odoo_records:
-                print('Unable to find model: %s' % model[1])
+                logging.warning('Unable to find model: %s', (model[1]))
                 self.models_to_create.append(model)
             else:
                 # If the search returns more than one, we'll
@@ -323,9 +333,9 @@ class ProcessWorkbook:
 
             Returns `self` (this instance of ProcessWorkbook)
         """
-        print('Creating sellable items for missing models')
+        logging.info('Creating sellable items for missing models')
         for model in self.models_to_create:
-            print('Creating model: %s' % model[1])
+            logging.info('Creating model: %s', (model[1]))
             result = self.api.do_create(
                 'erpwarehouse.sellable',
                 {
@@ -349,6 +359,7 @@ class ProcessWorkbook:
             Returns True if there is an existing record in Odoo,
             False otherwise.
         """
+        logging.debug('Checking if asset already exists before creation')
         result = self.api.do_search(
             'erpwarehouse.asset',
             [
@@ -379,11 +390,11 @@ class ProcessWorkbook:
                         'serial': record.serial,
                         'tag': record.asset_tag,
                     })
-                print('Added id: %s' % (result))
+                logging.info('Added id: %s', (result))
             else:
-                print('%s already existed, so it was skipped' % (record.serial))
+                logging.warning('%s already existed, so it was skipped', (record.serial))
         else:
-            print('Unable to add %s as there is no sellable id' % (record.serial))
+            logging.error('Unable to add %s as there is no sellable id', (record.serial))
 
         return self
 
@@ -420,9 +431,9 @@ class ProcessWorkbook:
                     'storser': child.serial if child else 'N/A',
                     'type': device_type,
                 })
-            print('Added id: %s' % (result))
+            logging.info('Added id: %s', (result))
         else:
-            print('Unable to add %s as there is no sellable id' % (record.serial))
+            logging.error('Unable to add %s as there is no sellable id', (record.serial))
 
         return self
 
@@ -435,12 +446,14 @@ class ProcessWorkbook:
 
             Returns `self` (this instance of ProcessWorkbook)
         """
-        print('Creating Line items for accepted records in Odoo')
+        logging.info('Creating Line items for accepted records in Odoo')
         for record in self.records:
 
             # Don't create lines for special serials
             if record.serial in self.serials_to_ignore:
-                print("%s is special, saving to special list" % record.serial)
+                logging.warning(
+                    "%s is special, skipping import and saving to special list", (record.serial)
+                )
                 self.special_csv.writerow({
                     'serial': record.serial,
                     'asset_tag': record.asset_tag,
