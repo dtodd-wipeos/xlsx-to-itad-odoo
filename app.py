@@ -14,6 +14,8 @@
     the XMLRPC interface
 """
 
+import csv
+import time
 import json
 import itertools
 from pprint import pprint
@@ -30,7 +32,11 @@ LAST_COL = 6 # The last column to read from in each row
 
 # Items in this list will not be checked for pre-existing records
 # and new records will always be created (at the risk of duplicate data)
-SERIALS_TO_IGNORE = []
+# Items in this list will not be imported,
+# but rather added to a discrepancy csv file
+SPECIAL_SERIALS = []
+SPECIAL_CSV = '<your special csv>-%s.csv' % (time.time())
+SPECIAL_FIELDS = ['serial', 'asset_tag', 'make', 'model', 'device_type', 'children']
 
 # Odoo Stuff
 ASSET_CATALOG_ID = 4525 # The database ID of the asset catalog we are importing into
@@ -55,6 +61,14 @@ class Record:
         self.device_type = str(kwargs.get('device_type'))
 
         self.children = kwargs.get('children', list())
+
+        # Special case for serial numbers recorded as dell links
+        if 'dell.com' in self.serial:
+            # We assume that there are no '/' characters in the serial,
+            # and that the serial is the very last thing in the link.
+            # For dell, this is fine, as they are sturctured like:
+            # https://qrl.dell.com/H6FND42
+            self.serial = self.serial.split('/')[-1]
 
     def __str__(self):
         """
@@ -91,6 +105,15 @@ class ProcessWorkbook:
         self.api = API()
         self.workbook = load_workbook(filename=SPREADSHEET, data_only=True)[SHEET]
 
+        # Special Serials
+        self.special_csv_file = open(SPECIAL_CSV, 'w')
+        self.special_csv = csv.DictWriter(
+            self.special_csv_file,
+            fieldnames=SPECIAL_FIELDS,
+            dialect=csv.excel
+        )
+        self.special_csv.writeheader()
+
         self.records = list()
         self.last_parent = None
 
@@ -107,6 +130,14 @@ class ProcessWorkbook:
         self.serials_to_ignore.extend(SERIALS_TO_IGNORE)
 
         print('Initialized ProcessWorkbook')
+
+    def __del__(self):
+        """
+            Automatically closes file handlers when destructed normally
+        """
+        self.special_csv_file.close()
+
+        print('ProcessWorkbook Finished')
 
     def get_id_from_model(self, model):
         """
@@ -139,6 +170,20 @@ class ProcessWorkbook:
         if serial in self.serials_to_ignore:
             return False
         if serial in [record.serial for record in records if record.serial]:
+            return True
+        return False
+
+    def serial_is_special(self, serial):
+        """
+            If a provided `serial` is determined to be
+            special for any reason, this method will
+            return True. Otherwise it returns False.
+
+            `serial` is a string to check against the
+            SPECIAL_SERIALS constant defined at the top
+            of this file
+        """
+        if serial in SPECIAL_SERIALS:
             return True
         return False
 
@@ -371,6 +416,19 @@ class ProcessWorkbook:
         """
         print('Creating Line items for accepted records in Odoo')
         for record in self.records:
+
+            # Don't create lines for special serials
+            if self.serial_is_special(record.serial):
+                print("%s is special, saving to special list" % record.serial)
+                self.special_csv.writerow({
+                    'serial': record.serial,
+                    'asset_tag': record.asset_tag,
+                    'make': record.make,
+                    'model': record.model,
+                    'device_type': record.device_type,
+                    'children': record.children,
+                })
+                continue
 
             if ASSET_CATALOG_ID:
                 self._create_asset_catalog_line(record)
