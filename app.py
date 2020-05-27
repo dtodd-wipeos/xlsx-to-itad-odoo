@@ -135,6 +135,8 @@ class ProcessWorkbook:
         )
         self.special_csv.writeheader()
 
+        # Failed records are rows that for one reason or another didn't generate a Record object
+        self.failed_records = list()
         self.records = list()
         self.last_parent = None
 
@@ -151,7 +153,6 @@ class ProcessWorkbook:
         self.serials_to_ignore.extend(SERIALS_TO_IGNORE)
 
         self.rows_processed = 0
-        self.records_created = 0
         self.sorting_records_uploaded = 0
         self.data_records_uploaded = 0
         self.records_ignored = 0
@@ -165,10 +166,11 @@ class ProcessWorkbook:
         self.special_csv_file.close()
 
         logging.info('Processed %d rows', (self.rows_processed))
-        logging.info('Created %d Records', (self.records_created))
+        logging.info('Created %d Records', (len(self.records)))
         logging.info('Uploaded %d Sorting Assets', (self.sorting_records_uploaded))
         logging.info('Uploaded %d Data Destruction Assets', (self.data_records_uploaded))
-        logging.info('Ignored %d Records', (self.records_ignored))
+        logging.info('Prevented %d Records from being uploaded', (self.records_ignored))
+        logging.info('Rows that failed Record Creation: %s', (self.failed_records))
         logging.info('ProcessWorkbook Finished')
 
     def get_id_from_model(self, model):
@@ -250,8 +252,6 @@ class ProcessWorkbook:
                 if record.model not in itertools.chain(*self.models_to_search):
                     self.models_to_search.append((record.make, record.model))
 
-            self.records_created += 1
-
             return record
         return False
 
@@ -298,6 +298,9 @@ class ProcessWorkbook:
                 record = self.create_record_from_row(row, False)
                 if record:
                     self.records.append(record)
+
+            if not record:
+                self.failed_records.append(row)
 
             self.rows_processed += 1
 
@@ -386,7 +389,7 @@ class ProcessWorkbook:
             Returns True if there is an existing record in Odoo,
             False otherwise.
         """
-        logging.debug('Checking if %s already exists before creation in Odoo', (record.serial))
+        logging.debug('Checking if "%s" already exists before creation in Odoo', (record.serial))
         result = self.api.do_search(
             'erpwarehouse.asset',
             [
@@ -398,7 +401,9 @@ class ProcessWorkbook:
                 ('tag', 'not in', [False, '', 'N/A']),
             ]
         )
-        return bool(result)
+        if len(result) > 0:
+            return True
+        return False
 
     def _create_asset_catalog_line(self, record):
         """
@@ -420,9 +425,9 @@ class ProcessWorkbook:
                 self.sorting_records_uploaded += 1
                 logging.debug('Added id: %s', (result))
             else:
-                logging.warning('%s already existed, so it was skipped', (record.serial))
+                logging.warning('"%s" already existed, so it was skipped', (record.serial))
         else:
-            logging.error('Unable to add %s as there is no sellable id', (record.serial))
+            logging.error('Unable to add "%s" as there is no sellable id', (record.serial))
 
         return self
 
@@ -462,7 +467,7 @@ class ProcessWorkbook:
             self.data_records_uploaded += 1
             logging.debug('Added id: %s', (result))
         else:
-            logging.error('Unable to add %s as there is no sellable id', (record.serial))
+            logging.error('Unable to add "%s" as there is no sellable id', (record.serial))
 
         return self
 
@@ -482,7 +487,7 @@ class ProcessWorkbook:
             if record.serial in self.serials_to_ignore:
                 self.records_ignored += 1
                 logging.warning(
-                    "%s is special, skipping import and saving to special list", (record.serial)
+                    '"%s" is special, skipping import and saving to special list', (record.serial)
                 )
                 self.special_csv.writerow({
                     'serial': record.serial,
