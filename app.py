@@ -110,7 +110,10 @@ class Record:
             'make': self.make,
             'model': self.model,
             'device_type': self.device_type,
-            'children': [child.__dict__ for child in self.children if child is not None],
+            'children': [
+                child.__dict__ for child in self.children
+                if child is not None
+            ] if self.children is not None else None,
         })
 
 class ProcessWorkbook:
@@ -162,11 +165,11 @@ class ProcessWorkbook:
         """
         self.special_csv_file.close()
 
-        logging.info('Processed %d rows', (self.rows_processed + 1))
-        logging.info('Created %d Records', (self.records_created + 1))
-        logging.info('Uploaded %d Sorting Assets', (self.sorting_records_uploaded + 1))
-        logging.info('Uploaded %d Data Destruction Assets', (self.data_records_uploaded + 1))
-        logging.info('Ignored %d Records', (self.records_ignored + 1))
+        logging.info('Processed %d rows', (self.rows_processed))
+        logging.info('Created %d Records', (self.records_created))
+        logging.info('Uploaded %d Sorting Assets', (self.sorting_records_uploaded))
+        logging.info('Uploaded %d Data Destruction Assets', (self.data_records_uploaded))
+        logging.info('Ignored %d Records', (self.records_ignored))
         logging.info('ProcessWorkbook Finished')
 
     def get_id_from_model(self, model):
@@ -315,7 +318,7 @@ class ProcessWorkbook:
             of the records that are stored
         """
         # pylint: disable=unnecessary-comprehension
-        logging.info(pprint([record for record in self.records]))
+        logging.debug(pprint([record for record in self.records]))
 
     def get_odoo_model_ids(self):
         """
@@ -510,6 +513,7 @@ class ProcessWorkbook:
             Runs everything in the order that is required
         """
         self.build_record_list()
+        self.show_records()
         self.get_odoo_model_ids()
         self.create_missing_model_ids()
         self.create_line_items()
