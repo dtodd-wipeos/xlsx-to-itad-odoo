@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Asset lines are now checked to see if they exist in Odoo before blindly creating new records (Asset Catalog only. This is not currently on the data destruction)
 - Record objects are now able to be duplicated for cases of "Serials to Ignore" (Multiple Records with the same "Serial Number")
+- The Print statements have been replaced with native logging
 
 ## [1.1.1] - 2020-05-27
 
