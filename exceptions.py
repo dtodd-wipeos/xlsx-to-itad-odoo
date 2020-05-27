@@ -4,6 +4,9 @@
 # Copyright 2019 David Todd <dtodd@oceantech.com>
 # License: MIT License, refer to `license.md` for more information
 
+# pylint: disable=missing-module-docstring
+# pylint: disable=super-init-not-called
+
 class InputError(Exception):
     """
         Raises an exception when some input value is not correct.

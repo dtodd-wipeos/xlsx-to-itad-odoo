@@ -4,6 +4,12 @@
 # Copyright 2019 David Todd <dtodd@oceantech.com>
 # License: MIT License, refer to `license.md` for more information
 
+# pylint: disable=missing-module-docstring
+# pylint: disable=line-too-long
+# pylint: disable=bad-continuation
+# pylint: disable=dangerous-default-value
+# pylint: disable=protected-access
+
 from exceptions import InputError
 
 import xmlrpc.client

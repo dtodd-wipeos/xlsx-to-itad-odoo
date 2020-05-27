@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2020-04-06
+
+### Added
+
+- Automatic linting when a PR for master is created using alpine-pylint docker container
+
+### Removed
+
+- Private method `_set_device_type` has been removed, and folded back into `_create_data_destruction_line`
+
 ## [1.1.0] - 2020-04-06
 
 ### Added

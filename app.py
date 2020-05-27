@@ -4,6 +4,8 @@
 # Copyright 2020 David Todd <dtodd@oceantech.com>
 # License: MIT License, refer to `license.md` for more information
 
+# pylint: disable=import-error
+
 """
     A Really hacky script (not really), who's purpose
     is to import oddly formatted data that was provided
@@ -84,6 +86,7 @@ class ProcessWorkbook:
         from the workbook and uploading it to Odoo
     """
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(self):
         self.api = API()
         self.workbook = load_workbook(filename=SPREADSHEET, data_only=True)[SHEET]
@@ -157,6 +160,7 @@ class ProcessWorkbook:
             created Record object. Otherwise, it returns False
         """
         if not self.serial_in_records(str(row[0].value)):
+            # pylint: disable=bad-whitespace
             record = Record(
                 serial = str(row[0].value),
                 asset_tag = str(row[1].value),
@@ -198,6 +202,7 @@ class ProcessWorkbook:
             Returns `self` (this instance of ProcessWorkbook)
         """
         print('Getting rows from the spreadsheet and sorting relationships')
+        # pylint: disable=bad-continuation
         for row in self.workbook.iter_rows(
             min_row=FIRST_ROW,
             max_col=LAST_COL,
@@ -236,6 +241,7 @@ class ProcessWorkbook:
             Pretty Prints a JSON string for all
             of the records that are stored
         """
+        # pylint: disable=unnecessary-comprehension
         pprint([record for record in self.records])
 
     def get_odoo_model_ids(self):
@@ -315,14 +321,13 @@ class ProcessWorkbook:
 
         return self
 
-    def _set_device_type(self, record, child=False):
+    def _create_data_destruction_line(self, record, child=False):
         """
-            With the provided `record` and optional `child`,
-            this method determines the device type for data
-            destruction.
+            With the provided `record` and optional `child` Record
+            instances, this method will issue an API request to
+            Odoo to create the line item
+        """
 
-            By default, it is '0', which means None
-        """
         device_type = '0'
         if record.device_type == 'Hard Drive':
             device_type = 'H'
@@ -339,14 +344,6 @@ class ProcessWorkbook:
             elif child.device_type == 'Tape':
                 device_type = 'T'
 
-        return device_type
-
-    def _create_data_destruction_line(self, record, child=False):
-        """
-            With the provided `record` and optional `child` Record
-            instances, this method will issue an API request to
-            Odoo to create the line item
-        """
         if self.get_id_from_model(record.model):
             result = self.api.do_create(
                 'erpwarehouse.ddl_item',
@@ -355,7 +352,7 @@ class ProcessWorkbook:
                     'make': self.get_id_from_model(record.model),
                     'serial': record.serial,
                     'storser': child.serial if child else 'N/A',
-                    'type': self._set_device_type(record, child),
+                    'type': device_type,
                 })
             print('Added id: %s' % (result))
         else:

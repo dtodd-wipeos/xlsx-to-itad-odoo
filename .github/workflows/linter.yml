@@ -1,0 +1,16 @@
+name: Linter
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Linter
+      run: docker build . --file Dockerfile --tag alpine-pylint-project
+    - name: Run the Linter
+      run: docker run alpine-pylint-project

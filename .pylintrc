@@ -1,0 +1,5 @@
+[similarities]
+
+# Avoid pylint failing the test if there are less than 20 duplicate lines of code
+# Because apparently the `# pylint: disable=duplicate-code` flag does nothing :v
+min-similarity-lines=20
