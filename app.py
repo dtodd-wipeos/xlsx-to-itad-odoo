@@ -175,7 +175,8 @@ class ProcessWorkbook:
             return True
         return False
 
-    def serial_is_special(self, serial):
+    @staticmethod
+    def serial_is_special(serial):
         """
             If a provided `serial` is determined to be
             special for any reason, this method will
