@@ -143,6 +143,8 @@ class ProcessWorkbook:
         self.serials_to_ignore = [None, '', 'N/A']
         self.serials_to_ignore.extend(SERIALS_TO_IGNORE)
 
+        self.rows_processed = 0
+
         logging.info('Initialized ProcessWorkbook')
 
     def __del__(self):
@@ -151,6 +153,7 @@ class ProcessWorkbook:
         """
         self.special_csv_file.close()
 
+        logging.info('Processed %d rows', (self.rows_processed + 1))
         logging.info('ProcessWorkbook Finished')
 
     def get_id_from_model(self, model):
@@ -278,6 +281,8 @@ class ProcessWorkbook:
                 record = self.create_record_from_row(row, False)
                 if record:
                     self.records.append(record)
+
+            self.rows_processed += 1
 
         return self
 
