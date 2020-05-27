@@ -345,22 +345,51 @@ class ProcessWorkbook:
 
         return self
 
+    def asset_line_exists(self, record):
+        """
+            Searches the asset catalog for
+            a line item matching the provided `record`.
+
+            Determines if a line is the same if either the
+            serial number or the asset tag was previously
+            recorded, but only if the tag is not empty/generic.
+
+            Returns True if there is an existing record in Odoo,
+            False otherwise.
+        """
+        result = self.api.do_search(
+            'erpwarehouse.asset',
+            [
+                ('catalog', '=', ASSET_CATALOG_ID),
+                ('make', '=', self.get_id_from_model(record.model)),
+                '|',
+                ('serial', '=ilike', record.serial),
+                ('tag', '=ilike', record.asset_tag),
+                ('tag', 'not in', [False, '', 'N/A']),
+            ]
+        )
+        return bool(result)
+
     def _create_asset_catalog_line(self, record):
         """
             With the provided `record` (Record) instance,
             this method will issue an API request to Odoo
-            to create the line item
+            to create the line item after searching Odoo
+            for that record.
         """
         if self.get_id_from_model(record.model):
-            result = self.api.do_create(
-                'erpwarehouse.asset',
-                {
-                    'catalog': ASSET_CATALOG_ID,
-                    'make': self.get_id_from_model(record.model),
-                    'serial': record.serial,
-                    'tag': record.asset_tag,
-                })
-            print('Added id: %s' % (result))
+            if not self.asset_line_exists(record):
+                result = self.api.do_create(
+                    'erpwarehouse.asset',
+                    {
+                        'catalog': ASSET_CATALOG_ID,
+                        'make': self.get_id_from_model(record.model),
+                        'serial': record.serial,
+                        'tag': record.asset_tag,
+                    })
+                print('Added id: %s' % (result))
+            else:
+                print('%s already existed' % (record.serial))
         else:
             print('Unable to add %s as there is no sellable id' % (record.serial))
 
