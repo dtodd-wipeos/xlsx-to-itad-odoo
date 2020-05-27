@@ -32,7 +32,10 @@ LAST_COL = 6 # The last column to read from in each row
 
 # Items in this list will not be checked for pre-existing records
 # and new records will always be created (at the risk of duplicate data)
-SERIALS_TO_IGNORE = []
+
+
+
+
 
 # Items in this list will not be imported,
 # but rather added to a discrepancy csv file
@@ -165,36 +168,26 @@ class ProcessWorkbook:
             `records` is an optional argument that will
             search that specific record list (such as a
             parent's children) instead of just the parent
-            records
+            records.
+
+            If the serial is to be ignored, this will
+            always return False, to allow the Record object
+            to be created (used to save it to a csv)
         """
         if records is None:
             records = self.records
-        if serial in self.serials_to_ignore:
-            return False
         if serial in [record.serial for record in records if record.serial]:
-            return True
-        return False
-
-    @staticmethod
-    def serial_is_special(serial):
-        """
-            If a provided `serial` is determined to be
-            special for any reason, this method will
-            return True. Otherwise it returns False.
-
-            `serial` is a string to check against the
-            SPECIAL_SERIALS constant defined at the top
-            of this file
-        """
-        if serial in SPECIAL_SERIALS:
-            return True
+            if serial not in self.serials_to_ignore:
+                return True
         return False
 
     def create_record_from_row(self, row, parent=True, search_model=True):
         """
             With a provided `row`, this method will first search
             for a matching serial number and if it doesn't exist,
-            a new Record will be created with that row's data
+            a new Record will be created with that row's data.
+            If the row's serial number is special, the record will
+            be created regardless of one already existing.
 
             `parent` is an optional argument that sets the `last_parent`
             attribute. `last_parent` is used to append new Records to
@@ -207,10 +200,12 @@ class ProcessWorkbook:
             If the serial number isn't in the list, this returns the
             created Record object. Otherwise, it returns False
         """
-        if not self.serial_in_records(str(row[0].value)):
+
+        serial = str(row[0].value)
+        if not self.serial_in_records(serial):
             # pylint: disable=bad-whitespace
             record = Record(
-                serial = str(row[0].value),
+                serial = serial,
                 asset_tag = str(row[1].value),
                 make = str(row[3].value),
                 model = str(row[4].value),
@@ -392,7 +387,7 @@ class ProcessWorkbook:
                     })
                 print('Added id: %s' % (result))
             else:
-                print('%s already existed' % (record.serial))
+                print('%s already existed, so it was skipped' % (record.serial))
         else:
             print('Unable to add %s as there is no sellable id' % (record.serial))
 
@@ -450,7 +445,7 @@ class ProcessWorkbook:
         for record in self.records:
 
             # Don't create lines for special serials
-            if self.serial_is_special(record.serial):
+            if record.serial in self.serials_to_ignore:
                 print("%s is special, saving to special list" % record.serial)
                 self.special_csv.writerow({
                     'serial': record.serial,
