@@ -20,7 +20,6 @@ import time
 import json
 import logging
 import itertools
-from pprint import pprint
 
 from openpyxl import load_workbook
 from api import API
@@ -314,11 +313,10 @@ class ProcessWorkbook:
 
     def show_records(self):
         """
-            Pretty Prints a JSON string for all
-            of the records that are stored
+            Logs all of the records stored, in JSON format
         """
         # pylint: disable=unnecessary-comprehension
-        logging.debug(pprint([record for record in self.records]))
+        logging.debug([record for record in self.records])
 
     def get_odoo_model_ids(self):
         """
