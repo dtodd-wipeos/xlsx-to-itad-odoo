@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Asset lines are now checked to see if they exist in Odoo before blindly creating new records (Asset Catalog only. This is not currently on the data destruction)
 
-## [1.1.1] - 2020-04-06
+## [1.1.1] - 2020-05-27
 
 ### Added
 
