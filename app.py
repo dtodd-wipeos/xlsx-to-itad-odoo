@@ -144,6 +144,10 @@ class ProcessWorkbook:
         self.serials_to_ignore.extend(SERIALS_TO_IGNORE)
 
         self.rows_processed = 0
+        self.records_created = 0
+        self.sorting_records_uploaded = 0
+        self.data_records_uploaded = 0
+        self.records_ignored = 0
 
         logging.info('Initialized ProcessWorkbook')
 
@@ -154,6 +158,10 @@ class ProcessWorkbook:
         self.special_csv_file.close()
 
         logging.info('Processed %d rows', (self.rows_processed + 1))
+        logging.info('Created %d Records', (self.records_created + 1))
+        logging.info('Uploaded %d Sorting Assets', (self.sorting_records_uploaded + 1))
+        logging.info('Uploaded %d Data Destruction Assets', (self.data_records_uploaded + 1))
+        logging.info('Ignored %d Records', (self.records_ignored + 1))
         logging.info('ProcessWorkbook Finished')
 
     def get_id_from_model(self, model):
@@ -234,6 +242,8 @@ class ProcessWorkbook:
                 # Add unique models so we can search for their sellable ids
                 if record.model not in itertools.chain(*self.models_to_search):
                     self.models_to_search.append((record.make, record.model))
+
+            self.records_created += 1
 
             return record
         return False
@@ -370,7 +380,7 @@ class ProcessWorkbook:
             Returns True if there is an existing record in Odoo,
             False otherwise.
         """
-        logging.debug('Checking if asset already exists before creation')
+        logging.info('Checking if %s already exists before creation in Odoo', (record.serial))
         result = self.api.do_search(
             'erpwarehouse.asset',
             [
@@ -401,7 +411,8 @@ class ProcessWorkbook:
                         'serial': record.serial,
                         'tag': record.asset_tag,
                     })
-                logging.info('Added id: %s', (result))
+                self.sorting_records_uploaded += 1
+                logging.debug('Added id: %s', (result))
             else:
                 logging.warning('%s already existed, so it was skipped', (record.serial))
         else:
@@ -442,7 +453,8 @@ class ProcessWorkbook:
                     'storser': child.serial if child else 'N/A',
                     'type': device_type,
                 })
-            logging.info('Added id: %s', (result))
+            self.data_records_uploaded += 1
+            logging.debug('Added id: %s', (result))
         else:
             logging.error('Unable to add %s as there is no sellable id', (record.serial))
 
@@ -462,6 +474,7 @@ class ProcessWorkbook:
 
             # Don't create lines for special serials
             if record.serial in self.serials_to_ignore:
+                self.records_ignored += 1
                 logging.warning(
                     "%s is special, skipping import and saving to special list", (record.serial)
                 )
