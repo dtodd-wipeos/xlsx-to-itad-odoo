@@ -51,7 +51,8 @@ logging.basicConfig(
 )
 # Log to console and file
 CONSOLE = logging.StreamHandler()
-FORMATTER = logging.Formatter('%(asctime)s: %(levelname)-8s %(message)s')
+CONSOLE.setLevel(logging.INFO)
+FORMATTER = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 CONSOLE.setFormatter(FORMATTER)
 logging.getLogger('').addHandler(CONSOLE)
 
