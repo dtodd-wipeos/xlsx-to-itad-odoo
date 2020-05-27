@@ -4,6 +4,8 @@
 # Copyright 2020 David Todd <dtodd@oceantech.com>
 # License: MIT License, refer to `license.md` for more information
 
+# pylint: disable=import-error
+
 """
     A Really hacky script (not really), who's purpose
     is to import oddly formatted data that was provided
