@@ -32,14 +32,8 @@ LAST_COL = 6 # The last column to read from in each row
 
 # Items in this list will not be checked for pre-existing records
 # and new records will always be created (at the risk of duplicate data)
+SERIALS_TO_IGNORE = []
 
-
-
-
-
-# Items in this list will not be imported,
-# but rather added to a discrepancy csv file
-SPECIAL_SERIALS = []
 SPECIAL_CSV = '<your special csv>-%s.csv' % (time.time())
 SPECIAL_FIELDS = ['serial', 'asset_tag', 'make', 'model', 'device_type', 'children']
 
