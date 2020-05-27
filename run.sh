@@ -6,7 +6,7 @@
 export odoo_database='OceanTech'
 export odoo_user=1
 
-# Odoo Records
+# Odoo Records - These are the database ids of the records that contain the table/list
 export odoo_asset_catalog_id=0
 export odoo_data_destruction_id=0
 
@@ -22,7 +22,10 @@ export last_row=2000
 export last_col=6
 
 # Serials to ignore are special cases that we should skip that line item
-declare -a serials_to_ignore=("N/A", "")
-export serials_to_ignore=${serials_to_ignore[@]}
+# One per line.
+export serials_to_ignore=$(cat << EOF
+N/A
+EOF
+)
 
 python3 app.py

@@ -14,6 +14,7 @@
     the XMLRPC interface
 """
 
+import os
 import csv
 import time
 import json
@@ -24,27 +25,31 @@ from pprint import pprint
 from openpyxl import load_workbook
 from api import API
 
-# Spreadsheet Stuff
-SPREADSHEET = '<your spreadsheet>.xlsx'
-SHEET = '<The Sheet name with the data>'
-FIRST_ROW = 2 # Assumes that the actual first row is a header
-LAST_ROW = 2064 # The last row that there is any data
-LAST_COL = 6 # The last column to read from in each row
-
-# Items in this list will not be checked for pre-existing records
-# and new records will always be created (at the risk of duplicate data)
-SERIALS_TO_IGNORE = []
-
-SPECIAL_CSV = '<your special csv>-%s.csv' % (time.time())
-SPECIAL_FIELDS = ['serial', 'asset_tag', 'make', 'model', 'device_type', 'children']
-
 # Odoo Stuff
-ASSET_CATALOG_ID = 4525 # The database ID of the asset catalog we are importing into
-DATA_DESTRUCTION_ID = None # The database ID of the data destruction we are importing into
+# The database ID of the asset catalog we are importing into
+ASSET_CATALOG_ID = int(os.environ.get('odoo_asset_catalog_id', 0))
+# The database ID of the data destruction we are importing into
+DATA_DESTRUCTION_ID = int(os.environ.get('odoo_data_destruction_id', 0))
+
+# Spreadsheet Stuff
+SPREADSHEET = os.environ.get('spreadsheet', '')
+SHEET = os.environ.get('sheet', '')
+FIRST_ROW = int(os.environ.get('first_row', 1))
+LAST_ROW = int(os.environ.get('last_row', 2000))
+LAST_COL = int(os.environ.get('last_col', 6))
+
+# Items in this list will always create a Record (though that record
+# won't get uploaded to the ERP), and will additionally be added to
+# a spreadsheet as they are come across
+SERIALS_TO_IGNORE = os.environ.get('serials_to_ignore').strip().split('\n')
+
+FILENAME_TIME = '%s' % (time.time())
+SPECIAL_CSV = '%s.csv' % (FILENAME_TIME)
+SPECIAL_FIELDS = ['serial', 'asset_tag', 'make', 'model', 'device_type', 'children']
 
 # Logging
 logging.basicConfig(
-    filename='logs/%s.log' % (time.time()),
+    filename='logs/%s.log' % (FILENAME_TIME),
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%m/%d/%Y %I:%M:%S %p'
@@ -380,7 +385,7 @@ class ProcessWorkbook:
             Returns True if there is an existing record in Odoo,
             False otherwise.
         """
-        logging.info('Checking if %s already exists before creation in Odoo', (record.serial))
+        logging.debug('Checking if %s already exists before creation in Odoo', (record.serial))
         result = self.api.do_search(
             'erpwarehouse.asset',
             [
