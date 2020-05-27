@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Saving of "Serials to Ignore" to a CSV file. This is used to select lines that shouldn't be imported, but do need to be looked at carefully
+- The number of rows being processed is kept track of and reported at the end of the program
 
 ### Changed
 
