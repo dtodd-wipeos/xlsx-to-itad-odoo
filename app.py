@@ -49,6 +49,11 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%m/%d/%Y %I:%M:%S %p'
 )
+# Log to console and file
+CONSOLE = logging.StreamHandler()
+FORMATTER = logging.Formatter('%(asctime)s: %(levelname)-8s %(message)s')
+CONSOLE.setFormatter(FORMATTER)
+logging.getLogger('').addHandler(CONSOLE)
 
 class Record:
     """
