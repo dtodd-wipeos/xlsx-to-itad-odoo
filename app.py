@@ -43,7 +43,7 @@ LAST_COL = int(os.environ.get('last_col', 6))
 SERIALS_TO_IGNORE = os.environ.get('serials_to_ignore').strip().split('\n')
 
 FILENAME_TIME = '%s' % (time.time())
-SPECIAL_CSV = '%s.csv' % (FILENAME_TIME)
+IGNORE_CSV = '%s.csv' % (FILENAME_TIME)
 
 # Logging
 logging.basicConfig(
@@ -71,16 +71,16 @@ class ProcessWorkbook:
         self.workbook = load_workbook(filename=SPREADSHEET, data_only=True)[SHEET]
 
         # Special Serials
-        self.special_csv_file = open(SPECIAL_CSV, 'w')
-        self.special_csv = csv.DictWriter(
-            self.special_csv_file,
+        self.ignore_csv_file = open(IGNORE_CSV, 'w')
+        self.ignore_csv = csv.DictWriter(
+            self.ignore_csv_file,
             fieldnames=[
                 'serial', 'asset_tag', 'make',
                 'model', 'device_type', 'children'
             ],
             dialect=csv.excel
         )
-        self.special_csv.writeheader()
+        self.ignore_csv.writeheader()
 
         # Failed records are rows that for one reason or another didn't generate a Record object
         self.failed_records = list()
@@ -110,7 +110,7 @@ class ProcessWorkbook:
         """
             Automatically closes file handlers when destructed normally
         """
-        self.special_csv_file.close()
+        self.ignore_csv_file.close()
 
         logging.info('Processed %d rows', (self.rows_processed))
         logging.info('Created %d Records', (len(self.records)))
@@ -449,7 +449,7 @@ class ProcessWorkbook:
                 logging.warning(
                     '"%s" is special, skipping import and saving to special list', (record.serial)
                 )
-                self.special_csv.writerow({
+                self.ignore_csv.writerow({
                     'serial': record.serial,
                     'asset_tag': record.asset_tag,
                     'make': record.make,
