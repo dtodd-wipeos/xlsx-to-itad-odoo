@@ -355,9 +355,7 @@ class ProcessWorkbook:
             [
                 ('catalog', '=', ASSET_CATALOG_ID),
                 ('make', '=', self.get_id_from_model(record.model)),
-                '|',
                 ('serial', '=ilike', record.serial),
-                ('tag', '=ilike', record.asset_tag),
             ]
         )
         if len(result) > 0:
