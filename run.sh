@@ -6,6 +6,7 @@
 export odoo_host='https://erp'
 export odoo_database='OceanTech'
 export odoo_user=1
+export odoo_pass=''
 
 # Odoo Records - These are the database ids of the records that contain the table/list
 export odoo_asset_catalog_id=0
