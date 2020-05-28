@@ -1,7 +1,7 @@
 #!/bin/bash
-# Part of erp-inventory
-# License: Odoo Proprietary V1
-# Author: David Todd (dtodd@oceantech.com)
+# Part of XLSX to Odoo import
+# Copyright 2020 David Todd <dtodd@oceantech.com>
+# License: MIT License, refer to `license.md` for more information
 
 # This is a simple script that will build and run the linter docker container
 # Expects a user that has the `docker` group or is `root` (NOTE: The docker group grants privileges equivalent to the root user)
