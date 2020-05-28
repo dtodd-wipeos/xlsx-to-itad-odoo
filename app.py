@@ -85,6 +85,7 @@ class ProcessWorkbook:
         # Failed records are rows that for one reason or another didn't generate a Record object
         self.failed_records = list()
         self.records = list()
+        self.records_to_upload = list()
         self.last_parent = None
 
         # These lists are expected to contain one or more Tuples
@@ -378,7 +379,8 @@ class ProcessWorkbook:
                         'make': self.get_id_from_model(record.model),
                         'serial': record.serial,
                         'tag': record.asset_tag,
-                    })
+                    }
+                )
                 self.sorting_records_uploaded += 1
                 logging.debug('Added id: %s', (result))
             else:
@@ -438,23 +440,7 @@ class ProcessWorkbook:
             Returns `self` (this instance of ProcessWorkbook)
         """
         logging.info('Creating Line items for accepted records in Odoo')
-        for record in self.records:
-
-            # Don't create lines for serials to ignore
-            if record.serial in self.serials_to_ignore:
-                self.records_ignored += 1
-                logging.warning(
-                    '"%s" is special, skipping import and saving to special list', (record.serial)
-                )
-                self.ignore_csv.writerow({
-                    'serial': record.serial,
-                    'asset_tag': record.asset_tag,
-                    'make': record.make,
-                    'model': record.model,
-                    'device_type': record.device_type,
-                    'children': record.children,
-                })
-                continue
+        for record in self.records_to_upload:
 
             if ASSET_CATALOG_ID:
                 self._create_asset_catalog_line(record)
@@ -468,6 +454,26 @@ class ProcessWorkbook:
 
         return self
 
+    def remove_ignored_records(self):
+        logging.info('Removing ignored records')
+
+        self.records_to_upload = [x for x in self.records if x.serial not in self.serials_to_ignore]
+
+        for record in self.records:
+            if record.serial in self.serials_to_ignore:
+                self.records_ignored += 1
+                logging.warning(
+                    '"%s" is special, skipping import and saving to special list', (record.serial)
+                )
+                self.ignore_csv.writerow({
+                    'serial': record.serial,
+                    'asset_tag': record.asset_tag,
+                    'make': record.make,
+                    'model': record.model,
+                    'device_type': record.device_type,
+                    'children': record.children,
+                })
+
     def run(self):
         """
             Runs everything in the order that is required
@@ -476,6 +482,7 @@ class ProcessWorkbook:
         self.show_records()
         self.get_odoo_model_ids()
         self.create_missing_model_ids()
+        self.remove_ignored_records()
         self.create_line_items()
 
 if __name__ == '__main__':
