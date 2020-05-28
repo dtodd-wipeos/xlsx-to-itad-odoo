@@ -163,9 +163,10 @@ class ProcessWorkbook:
         """
         if records is None:
             records = self.records
+        if serial in self.serials_to_ignore:
+            return False
         if serial in [record.serial for record in records if record.serial]:
-            if serial not in self.serials_to_ignore:
-                return True
+            return True
         return False
 
     def create_record_from_row(self, row, parent=True, search_model=True):
