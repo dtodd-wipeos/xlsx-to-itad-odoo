@@ -442,7 +442,7 @@ class ProcessWorkbook:
         logging.info('Creating Line items for accepted records in Odoo')
         for record in self.records:
 
-            # Don't create lines for special serials
+            # Don't create lines for serials to ignore
             if record.serial in self.serials_to_ignore:
                 self.records_ignored += 1
                 logging.warning(
