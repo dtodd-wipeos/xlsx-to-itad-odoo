@@ -117,7 +117,18 @@ class ProcessWorkbook:
         logging.info('Uploaded %d Sorting Assets', (self.sorting_records_uploaded))
         logging.info('Uploaded %d Data Destruction Assets', (self.data_records_uploaded))
         logging.info('Prevented %d Records from being uploaded', (self.records_ignored))
-        logging.info('Rows that failed Record Creation: %s', (self.failed_records))
+
+        for row in self.failed_records:
+            logging.info(
+                'Row that failed Record Creation: %s | %s | %s | %s | %s' % (
+                    row[0].value,
+                    row[1].value,
+                    row[3].value,
+                    row[4].value,
+                    row[5].value
+                )
+            )
+
         logging.info('ProcessWorkbook Finished')
 
     def get_id_from_model(self, model):
