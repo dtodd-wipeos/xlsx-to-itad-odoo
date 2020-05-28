@@ -4,8 +4,6 @@
 # Copyright 2020 David Todd <dtodd@oceantech.com>
 # License: MIT License, refer to `license.md` for more information
 
-# pylint: disable=import-error
-
 """
     Provides the Record class, which is a close
     representation of an Odoo Record for the purposes
