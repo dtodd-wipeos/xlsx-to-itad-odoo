@@ -358,7 +358,6 @@ class ProcessWorkbook:
                 '|',
                 ('serial', '=ilike', record.serial),
                 ('tag', '=ilike', record.asset_tag),
-                ('tag', 'not in', [False, '', 'N/A']),
             ]
         )
         if len(result) > 0:
