@@ -44,7 +44,6 @@ SERIALS_TO_IGNORE = os.environ.get('serials_to_ignore').strip().split('\n')
 
 FILENAME_TIME = '%s' % (time.time())
 SPECIAL_CSV = '%s.csv' % (FILENAME_TIME)
-SPECIAL_FIELDS = ['serial', 'asset_tag', 'make', 'model', 'device_type', 'children']
 
 # Logging
 logging.basicConfig(
@@ -130,7 +129,10 @@ class ProcessWorkbook:
         self.special_csv_file = open(SPECIAL_CSV, 'w')
         self.special_csv = csv.DictWriter(
             self.special_csv_file,
-            fieldnames=SPECIAL_FIELDS,
+            fieldnames=[
+                'serial', 'asset_tag', 'make',
+                'model', 'device_type', 'children'
+            ],
             dialect=csv.excel
         )
         self.special_csv.writeheader()
