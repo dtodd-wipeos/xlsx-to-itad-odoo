@@ -455,9 +455,19 @@ class ProcessWorkbook:
         return self
 
     def remove_ignored_records(self):
-        logging.info('Removing ignored records')
+        """
+            Populates `self.records_to_upload` with
+            any record that is not also a part of the
+            `self.serials_to_ignore` list, counts the
+            serials that were ignored, and writes those
+            rows to an ignore csv
+        """
+        logging.info('Removing Ignored Serials from Records')
 
-        self.records_to_upload = [x for x in self.records if x.serial not in self.serials_to_ignore]
+        self.records_to_upload = [
+            x for x in self.records
+            if x.serial not in self.serials_to_ignore
+        ]
 
         for record in self.records:
             if record.serial in self.serials_to_ignore:
