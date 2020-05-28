@@ -3,6 +3,7 @@
 # Sets up the environment and runs the script
 
 # Odoo Connection settings
+export odoo_host='https://erp'
 export odoo_database='OceanTech'
 export odoo_user=1
 
