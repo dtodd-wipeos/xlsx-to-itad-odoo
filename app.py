@@ -119,8 +119,9 @@ class ProcessWorkbook:
         logging.info('Prevented %d Records from being uploaded', (self.records_ignored))
 
         for row in self.failed_records:
+            # pylint: disable=logging-no-lazy
             logging.info(
-                'Row that failed Record Creation: %s | %s | %s | %s | %s', (
+                'Row that failed Record Creation: %s | %s | %s | %s | %s' % (
                     row[0].value,
                     row[1].value,
                     row[3].value,
