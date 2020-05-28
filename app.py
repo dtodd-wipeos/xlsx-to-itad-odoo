@@ -59,6 +59,12 @@ FORMATTER = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 CONSOLE.setFormatter(FORMATTER)
 logging.getLogger('').addHandler(CONSOLE)
 
+# Sanity Checks
+if ASSET_CATALOG_ID <= 0:
+    logging.warning('Zero or negative asset catalog. Records will not get uploaded to it')
+if DATA_DESTRUCTION_ID <= 0:
+    logging.warning('Zero or negative data destruction. Records will not get uploaded to it')
+
 class ProcessWorkbook:
     """
         Provides a mechanism for extracting the content
