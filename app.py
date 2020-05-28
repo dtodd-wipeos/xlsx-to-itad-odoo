@@ -120,7 +120,7 @@ class ProcessWorkbook:
 
         for row in self.failed_records:
             logging.info(
-                'Row that failed Record Creation: %s | %s | %s | %s | %s' % (
+                'Row that failed Record Creation: %s | %s | %s | %s | %s', (
                     row[0].value,
                     row[1].value,
                     row[3].value,
