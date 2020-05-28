@@ -259,6 +259,7 @@ class ProcessWorkbook:
                     self.records.append(record)
 
             if not record:
+                logging.error('Failed to create a Record from Row: %s', (row))
                 self.failed_records.append(row)
 
             self.rows_processed += 1
