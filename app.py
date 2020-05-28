@@ -350,8 +350,7 @@ class ProcessWorkbook:
             a line item matching the provided `record`.
 
             Determines if a line is the same if either the
-            serial number or the asset tag was previously
-            recorded, but only if the tag is not empty/generic.
+            serial number was previously recorded.
 
             Returns True if there is an existing record in Odoo,
             False otherwise.
