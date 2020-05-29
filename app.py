@@ -47,7 +47,7 @@ IGNORE_CSV = '%s.csv' % (FILENAME_TIME)
 
 # Logging
 logging.basicConfig(
-    filename='logs/%s.log' % (FILENAME_TIME),
+    filename='%s.log' % (FILENAME_TIME),
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%m/%d/%Y %I:%M:%S %p'
