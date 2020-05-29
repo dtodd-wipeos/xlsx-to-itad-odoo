@@ -469,11 +469,6 @@ class ProcessWorkbook:
         """
         logging.info('Removing Ignored Serials from Records')
 
-        self.records_to_upload = [
-            x for x in self.records
-            if x.serial not in self.serials_to_ignore
-        ]
-
         for record in self.records:
             if record.serial in self.serials_to_ignore:
                 self.records_ignored += 1
@@ -488,6 +483,8 @@ class ProcessWorkbook:
                     'device_type': record.device_type,
                     'children': record.children,
                 })
+            else:
+                self.records_to_upload.append(record)
 
     def run(self):
         """
