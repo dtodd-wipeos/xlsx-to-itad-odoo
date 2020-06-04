@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.3] - 2020-06-04
+
+### Changed
+
+- All methods have had [python type hints](https://www.python.org/dev/peps/pep-0484/) added
+- Documentation has been updated to include these type hints, and links to github commits
+
 ## [1.2.2] - 2020-06-04
 
 ### Added
