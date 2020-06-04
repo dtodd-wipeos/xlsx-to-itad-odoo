@@ -16,6 +16,6 @@ class InputError(Exception):
                 for how to fix it
     """
 
-    def __init__(self, field, message):
+    def __init__(self, field: str, message: str) -> Exception:
         self.field = field
         self.message = message

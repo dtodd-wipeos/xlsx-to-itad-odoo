@@ -5,6 +5,11 @@
 # License: MIT License, refer to `license.md` for more information
 
 # pylint: disable=import-error
+# pylint: disable=bad-whitespace
+# pylint: disable=bad-continuation
+# pylint: disable=logging-not-lazy
+# pylint: disable=unnecessary-comprehension
+# pylint: disable=too-many-instance-attributes
 
 """
     A Really hacky script (not really), who's purpose
@@ -19,6 +24,7 @@ import csv
 import time
 import logging
 import itertools
+from typing import Union
 
 from openpyxl import load_workbook
 from record import Record
@@ -71,8 +77,7 @@ class ProcessWorkbook:
         from the workbook and uploading it to Odoo
     """
 
-    # pylint: disable=too-many-instance-attributes
-    def __init__(self):
+    def __init__(self) -> None:
         self.api = API()
         self.workbook = load_workbook(filename=SPREADSHEET, data_only=True)[SHEET]
 
@@ -113,7 +118,7 @@ class ProcessWorkbook:
 
         logging.info('Initialized ProcessWorkbook')
 
-    def __del__(self):
+    def __del__(self) -> None:
         """
             Automatically closes file handlers when destructed normally
         """
@@ -126,7 +131,6 @@ class ProcessWorkbook:
         logging.info('Prevented %d Records from being uploaded', (self.records_ignored))
 
         for row in self.failed_records:
-            # pylint: disable=logging-not-lazy
             logging.info(
                 'Row that failed Record Creation: %s | %s | %s | %s | %s' % (
                     row[0].value,
@@ -139,7 +143,7 @@ class ProcessWorkbook:
 
         logging.info('ProcessWorkbook Finished')
 
-    def get_id_from_model(self, model):
+    def get_id_from_model(self, model: str) -> Union[tuple, None]:
         """
             Searches `self.models_to_ids` for
             a matching `model`, and returns the
@@ -151,7 +155,7 @@ class ProcessWorkbook:
                 return item[1]
         return None
 
-    def serial_in_records(self, serial, records=None):
+    def serial_in_records(self, serial: str, records: Record = None) -> bool:
         """
             Determines if a particular serial number
             is in a record list, and returns True if so;
@@ -177,7 +181,9 @@ class ProcessWorkbook:
             return True
         return False
 
-    def create_record_from_row(self, row, parent=True, search_model=True):
+    def create_record_from_row(
+        self, row: tuple, parent: bool = True, search_model: bool = True
+    ) -> Union[bool, Record]:
         """
             With a provided `row`, this method will first search
             for a matching serial number and if it doesn't exist,
@@ -199,7 +205,6 @@ class ProcessWorkbook:
 
         serial = str(row[0].value)
         if not self.serial_in_records(serial):
-            # pylint: disable=bad-whitespace
             logging.debug('Creating Record for %s', (serial))
             record = Record(
                 serial = serial,
@@ -222,7 +227,7 @@ class ProcessWorkbook:
             return record
         return False
 
-    def build_record_list(self):
+    def build_record_list(self) -> 'ProcessWorkbook':
         """
             Reads the workbook and sorts each row into
             multiple instances of the Record class.
@@ -242,7 +247,6 @@ class ProcessWorkbook:
             Returns `self` (this instance of ProcessWorkbook)
         """
         logging.info('Getting rows from the spreadsheet and sorting relationships')
-        # pylint: disable=bad-continuation
         for row in self.workbook.iter_rows(
             min_row=FIRST_ROW,
             max_col=LAST_COL,
@@ -273,7 +277,7 @@ class ProcessWorkbook:
 
         return self
 
-    def get_records(self):
+    def get_records(self) -> 'ProcessWorkbook':
         """
             Deprecated, use `build_record_list` instead.
         """
@@ -281,14 +285,13 @@ class ProcessWorkbook:
         logging.warning('Please use `build_record_list` instead.')
         return self.build_record_list()
 
-    def show_records(self):
+    def show_records(self) -> None:
         """
             Logs all of the records stored, in JSON format
         """
-        # pylint: disable=unnecessary-comprehension
         logging.debug([record for record in self.records])
 
-    def get_odoo_model_ids(self):
+    def get_odoo_model_ids(self) -> 'ProcessWorkbook':
         """
             Iterates over unique models and searches
             Odoo for the database id of those models.
@@ -322,7 +325,7 @@ class ProcessWorkbook:
                 # models are duplicated (for whatever reason)
                 self.models_to_ids.append((model, odoo_records[0]['id']))
 
-    def create_missing_model_ids(self):
+    def create_missing_model_ids(self) -> 'ProcessWorkbook':
         """
             For any models that couldn't be located
             when initally searched, create them and
@@ -344,7 +347,7 @@ class ProcessWorkbook:
 
         return self
 
-    def asset_line_exists(self, record):
+    def asset_line_exists(self, record: Record) -> bool:
         """
             Searches the asset catalog for
             a line item matching the provided `record`.
@@ -368,7 +371,7 @@ class ProcessWorkbook:
             return True
         return False
 
-    def _create_asset_catalog_line(self, record):
+    def _create_asset_catalog_line(self, record: Record) -> 'ProcessWorkbook':
         """
             With the provided `record` (Record) instance,
             this method will issue an API request to Odoo
@@ -395,7 +398,9 @@ class ProcessWorkbook:
 
         return self
 
-    def _create_data_destruction_line(self, record, child=False):
+    def _create_data_destruction_line(
+        self, record: Record, child: bool = False
+    ) -> 'ProcessWorkbook':
         """
             With the provided `record` and optional `child` Record
             instances, this method will issue an API request to
@@ -435,7 +440,7 @@ class ProcessWorkbook:
 
         return self
 
-    def create_line_items(self):
+    def create_line_items(self) -> 'ProcessWorkbook':
         """
             For all the records that we can
             process (there's a mapped model),
@@ -459,7 +464,7 @@ class ProcessWorkbook:
 
         return self
 
-    def remove_ignored_records(self):
+    def remove_ignored_records(self) -> None:
         """
             Populates `self.records_to_upload` with
             any record that is not also a part of the
@@ -486,7 +491,7 @@ class ProcessWorkbook:
             else:
                 self.records_to_upload.append(record)
 
-    def run(self):
+    def run(self) -> None:
         """
             Runs everything in the order that is required
         """
