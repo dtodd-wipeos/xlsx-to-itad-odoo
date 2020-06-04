@@ -57,7 +57,7 @@ class API:
     # The types of query that are able to be made to the Odoo instance
     QUERY_TYPES = [&#39;search&#39;, &#39;create&#39;, &#39;read&#39;, &#39;write&#39;, &#39;unlink&#39;, &#39;search_read&#39;]
 
-    def __init__(self):
+    def __init__(self) -&gt; None:
         &#34;&#34;&#34;
             Gathers Odoo information from the environment and parses the required fields
         &#34;&#34;&#34;
@@ -91,7 +91,7 @@ class API:
                 &#39;Set this by doing `export odoo_pass=\&#39;&lt;your password&gt;\&#39;` &#39;
                 &#39;and run the script again&#39;)
 
-    def _connect(self):
+    def _connect(self) -&gt; xmlrpc.client.ServerProxy:
         &#34;&#34;&#34;
             Connects to the Odoo instance and returns an XMLRPC object
         &#34;&#34;&#34;
@@ -103,7 +103,7 @@ class API:
             return xmlrpc.client.ServerProxy(endpoint, context=ssl._create_unverified_context())
         return xmlrpc.client.ServerProxy(endpoint)
 
-    def _query(self, query_type, model, query, options={}):
+    def _query(self, query_type: str, model: str, query: list, options: dict = {}) -&gt; list:
         &#34;&#34;&#34;
             Verifies the `query_type` is supported by the API
             and executes the API request on a new XMLRPC instance, returning the result
@@ -122,7 +122,7 @@ class API:
             [query],    # query must be a list containing either a list or dict depending on the query_type
             options)    # options will always be an optional dict, but the keys and values will change depending on query_type
 
-    def do_search(self, model, query=[], options={&#39;limit&#39;:0}):
+    def do_search(self, model: str, query: list = [], options: dict = {&#39;limit&#39;: 0}) -&gt; list:
         &#34;&#34;&#34;
             Searches the `model` for `query` with `options`
             Defaults to search all records with no limit.
@@ -138,7 +138,7 @@ class API:
 
         return self._query(&#39;search&#39;, model, query, options)
 
-    def do_create(self, model, query):
+    def do_create(self, model: str, query: list) -&gt; list:
         &#34;&#34;&#34;
             Creates one or more records on `model` with the supplied `query`
 
@@ -157,7 +157,7 @@ class API:
 
         return self._query(&#39;create&#39;, model, query)
 
-    def do_read(self, model, query, options={}):
+    def do_read(self, model: str, query: list, options: dict = {}) -&gt; list:
         &#34;&#34;&#34;
             Reads one or more records on `model` with the supplied `query`
 
@@ -171,7 +171,7 @@ class API:
 
         return self._query(&#39;read&#39;, model, query, options)
 
-    def do_update(self, model, query, options={}):
+    def do_update(self, model: str, query: list, options: dict = {}) -&gt; list:
         &#34;&#34;&#34;
             Updates one or more records on `model`, selected with `query`
 
@@ -184,7 +184,7 @@ class API:
 
         return self._query(&#39;write&#39;, model, query, options)
 
-    def do_delete(self, model, query):
+    def do_delete(self, model: str, query: list) -&gt; list:
         &#34;&#34;&#34;
             Deletes one or more records on `model`, selected with `query`
 
@@ -197,7 +197,7 @@ class API:
 
         return self._query(&#39;unlink&#39;, model, query)
 
-    def do_search_and_read(self, model, query, options={}):
+    def do_search_and_read(self, model: str, query: list, options: dict = {}) -&gt; list:
         &#34;&#34;&#34;
             Shortcut for `do_read()` with the result of `do_search()` being used as the `query`
 
@@ -252,7 +252,7 @@ and to perform queries against the database.</p>
     # The types of query that are able to be made to the Odoo instance
     QUERY_TYPES = [&#39;search&#39;, &#39;create&#39;, &#39;read&#39;, &#39;write&#39;, &#39;unlink&#39;, &#39;search_read&#39;]
 
-    def __init__(self):
+    def __init__(self) -&gt; None:
         &#34;&#34;&#34;
             Gathers Odoo information from the environment and parses the required fields
         &#34;&#34;&#34;
@@ -286,7 +286,7 @@ and to perform queries against the database.</p>
                 &#39;Set this by doing `export odoo_pass=\&#39;&lt;your password&gt;\&#39;` &#39;
                 &#39;and run the script again&#39;)
 
-    def _connect(self):
+    def _connect(self) -&gt; xmlrpc.client.ServerProxy:
         &#34;&#34;&#34;
             Connects to the Odoo instance and returns an XMLRPC object
         &#34;&#34;&#34;
@@ -298,7 +298,7 @@ and to perform queries against the database.</p>
             return xmlrpc.client.ServerProxy(endpoint, context=ssl._create_unverified_context())
         return xmlrpc.client.ServerProxy(endpoint)
 
-    def _query(self, query_type, model, query, options={}):
+    def _query(self, query_type: str, model: str, query: list, options: dict = {}) -&gt; list:
         &#34;&#34;&#34;
             Verifies the `query_type` is supported by the API
             and executes the API request on a new XMLRPC instance, returning the result
@@ -317,7 +317,7 @@ and to perform queries against the database.</p>
             [query],    # query must be a list containing either a list or dict depending on the query_type
             options)    # options will always be an optional dict, but the keys and values will change depending on query_type
 
-    def do_search(self, model, query=[], options={&#39;limit&#39;:0}):
+    def do_search(self, model: str, query: list = [], options: dict = {&#39;limit&#39;: 0}) -&gt; list:
         &#34;&#34;&#34;
             Searches the `model` for `query` with `options`
             Defaults to search all records with no limit.
@@ -333,7 +333,7 @@ and to perform queries against the database.</p>
 
         return self._query(&#39;search&#39;, model, query, options)
 
-    def do_create(self, model, query):
+    def do_create(self, model: str, query: list) -&gt; list:
         &#34;&#34;&#34;
             Creates one or more records on `model` with the supplied `query`
 
@@ -352,7 +352,7 @@ and to perform queries against the database.</p>
 
         return self._query(&#39;create&#39;, model, query)
 
-    def do_read(self, model, query, options={}):
+    def do_read(self, model: str, query: list, options: dict = {}) -&gt; list:
         &#34;&#34;&#34;
             Reads one or more records on `model` with the supplied `query`
 
@@ -366,7 +366,7 @@ and to perform queries against the database.</p>
 
         return self._query(&#39;read&#39;, model, query, options)
 
-    def do_update(self, model, query, options={}):
+    def do_update(self, model: str, query: list, options: dict = {}) -&gt; list:
         &#34;&#34;&#34;
             Updates one or more records on `model`, selected with `query`
 
@@ -379,7 +379,7 @@ and to perform queries against the database.</p>
 
         return self._query(&#39;write&#39;, model, query, options)
 
-    def do_delete(self, model, query):
+    def do_delete(self, model: str, query: list) -&gt; list:
         &#34;&#34;&#34;
             Deletes one or more records on `model`, selected with `query`
 
@@ -392,7 +392,7 @@ and to perform queries against the database.</p>
 
         return self._query(&#39;unlink&#39;, model, query)
 
-    def do_search_and_read(self, model, query, options={}):
+    def do_search_and_read(self, model: str, query: list, options: dict = {}) -&gt; list:
         &#34;&#34;&#34;
             Shortcut for `do_read()` with the result of `do_search()` being used as the `query`
 
@@ -416,7 +416,7 @@ and to perform queries against the database.</p>
 <h3>Methods</h3>
 <dl>
 <dt id="xlsx-to-itad-odoo.api.API.do_create"><code class="name flex">
-<span>def <span class="ident">do_create</span></span>(<span>self, model, query)</span>
+<span>def <span class="ident">do_create</span></span>(<span>self, model: str, query: list) -> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates one or more records on <code>model</code> with the supplied <code>query</code></p>
@@ -432,7 +432,7 @@ Relational fields (<code>one2many</code>, <code>many2one</code>, <code>many2many
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def do_create(self, model, query):
+<pre><code class="python">def do_create(self, model: str, query: list) -&gt; list:
     &#34;&#34;&#34;
         Creates one or more records on `model` with the supplied `query`
 
@@ -453,7 +453,7 @@ Relational fields (<code>one2many</code>, <code>many2one</code>, <code>many2many
 </details>
 </dd>
 <dt id="xlsx-to-itad-odoo.api.API.do_delete"><code class="name flex">
-<span>def <span class="ident">do_delete</span></span>(<span>self, model, query)</span>
+<span>def <span class="ident">do_delete</span></span>(<span>self, model: str, query: list) -> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deletes one or more records on <code>model</code>, selected with <code>query</code></p>
@@ -464,7 +464,7 @@ Relational fields (<code>one2many</code>, <code>many2one</code>, <code>many2many
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def do_delete(self, model, query):
+<pre><code class="python">def do_delete(self, model: str, query: list) -&gt; list:
     &#34;&#34;&#34;
         Deletes one or more records on `model`, selected with `query`
 
@@ -479,7 +479,7 @@ Relational fields (<code>one2many</code>, <code>many2one</code>, <code>many2many
 </details>
 </dd>
 <dt id="xlsx-to-itad-odoo.api.API.do_read"><code class="name flex">
-<span>def <span class="ident">do_read</span></span>(<span>self, model, query, options={})</span>
+<span>def <span class="ident">do_read</span></span>(<span>self, model: str, query: list, options: dict = {}) -> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Reads one or more records on <code>model</code> with the supplied <code>query</code></p>
@@ -491,7 +491,7 @@ Relational fields (<code>one2many</code>, <code>many2one</code>, <code>many2many
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def do_read(self, model, query, options={}):
+<pre><code class="python">def do_read(self, model: str, query: list, options: dict = {}) -&gt; list:
     &#34;&#34;&#34;
         Reads one or more records on `model` with the supplied `query`
 
@@ -507,7 +507,7 @@ Relational fields (<code>one2many</code>, <code>many2one</code>, <code>many2many
 </details>
 </dd>
 <dt id="xlsx-to-itad-odoo.api.API.do_search"><code class="name flex">
-<span>def <span class="ident">do_search</span></span>(<span>self, model, query=[], options={'limit': 0})</span>
+<span>def <span class="ident">do_search</span></span>(<span>self, model: str, query: list = [], options: dict = {'limit': 0}) -> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Searches the <code>model</code> for <code>query</code> with <code>options</code>
@@ -521,7 +521,7 @@ Defaults to search all records with no limit.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def do_search(self, model, query=[], options={&#39;limit&#39;:0}):
+<pre><code class="python">def do_search(self, model: str, query: list = [], options: dict = {&#39;limit&#39;: 0}) -&gt; list:
     &#34;&#34;&#34;
         Searches the `model` for `query` with `options`
         Defaults to search all records with no limit.
@@ -539,7 +539,7 @@ Defaults to search all records with no limit.</p>
 </details>
 </dd>
 <dt id="xlsx-to-itad-odoo.api.API.do_search_and_read"><code class="name flex">
-<span>def <span class="ident">do_search_and_read</span></span>(<span>self, model, query, options={})</span>
+<span>def <span class="ident">do_search_and_read</span></span>(<span>self, model: str, query: list, options: dict = {}) -> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Shortcut for <code>do_read()</code> with the result of <code>do_search()</code> being used as the <code>query</code></p>
@@ -551,7 +551,7 @@ Defaults to search all records with no limit.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def do_search_and_read(self, model, query, options={}):
+<pre><code class="python">def do_search_and_read(self, model: str, query: list, options: dict = {}) -&gt; list:
     &#34;&#34;&#34;
         Shortcut for `do_read()` with the result of `do_search()` being used as the `query`
 
@@ -567,7 +567,7 @@ Defaults to search all records with no limit.</p>
 </details>
 </dd>
 <dt id="xlsx-to-itad-odoo.api.API.do_update"><code class="name flex">
-<span>def <span class="ident">do_update</span></span>(<span>self, model, query, options={})</span>
+<span>def <span class="ident">do_update</span></span>(<span>self, model: str, query: list, options: dict = {}) -> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates one or more records on <code>model</code>, selected with <code>query</code></p>
@@ -578,7 +578,7 @@ Defaults to search all records with no limit.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def do_update(self, model, query, options={}):
+<pre><code class="python">def do_update(self, model: str, query: list, options: dict = {}) -&gt; list:
     &#34;&#34;&#34;
         Updates one or more records on `model`, selected with `query`
 

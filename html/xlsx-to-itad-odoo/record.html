@@ -54,7 +54,7 @@ class Record:
         one or more Record objects, or None
     &#34;&#34;&#34;
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: dict) -&gt; None:
         self.serial = str(kwargs.get(&#39;serial&#39;))
         self.asset_tag = str(kwargs.get(&#39;asset_tag&#39;))
         self.make = str(kwargs.get(&#39;make&#39;))
@@ -71,13 +71,13 @@ class Record:
             # https://qrl.dell.com/H6FND42
             self.serial = self.serial.split(&#39;/&#39;)[-1]
 
-    def __str__(self):
+    def __str__(self) -&gt; str:
         &#34;&#34;&#34;
             Returns the serial number of this Record instance
         &#34;&#34;&#34;
         return self.serial
 
-    def __repr__(self):
+    def __repr__(self) -&gt; str:
         &#34;&#34;&#34;
             Used when iterating over a list of Record objects
 
@@ -110,7 +110,7 @@ class Record:
 <dl>
 <dt id="xlsx-to-itad-odoo.record.Record"><code class="flex name class">
 <span>class <span class="ident">Record</span></span>
-<span>(</span><span>**kwargs)</span>
+<span>(</span><span>**kwargs: dict)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Stores information about the line items to import.</p>
@@ -134,7 +134,7 @@ one or more Record objects, or None</p></div>
         one or more Record objects, or None
     &#34;&#34;&#34;
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: dict) -&gt; None:
         self.serial = str(kwargs.get(&#39;serial&#39;))
         self.asset_tag = str(kwargs.get(&#39;asset_tag&#39;))
         self.make = str(kwargs.get(&#39;make&#39;))
@@ -151,13 +151,13 @@ one or more Record objects, or None</p></div>
             # https://qrl.dell.com/H6FND42
             self.serial = self.serial.split(&#39;/&#39;)[-1]
 
-    def __str__(self):
+    def __str__(self) -&gt; str:
         &#34;&#34;&#34;
             Returns the serial number of this Record instance
         &#34;&#34;&#34;
         return self.serial
 
-    def __repr__(self):
+    def __repr__(self) -&gt; str:
         &#34;&#34;&#34;
             Used when iterating over a list of Record objects
 

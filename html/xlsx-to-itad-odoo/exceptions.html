@@ -42,7 +42,7 @@ class InputError(Exception):
                 for how to fix it
     &#34;&#34;&#34;
 
-    def __init__(self, field, message):
+    def __init__(self, field: str, message: str) -&gt; Exception:
         self.field = field
         self.message = message</code></pre>
 </details>
@@ -58,7 +58,7 @@ class InputError(Exception):
 <dl>
 <dt id="xlsx-to-itad-odoo.exceptions.InputError"><code class="flex name class">
 <span>class <span class="ident">InputError</span></span>
-<span>(</span><span>field, message)</span>
+<span>(</span><span>field: str, message: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Raises an exception when some input value is not correct.</p>
@@ -79,7 +79,7 @@ for how to fix it</p></div>
                 for how to fix it
     &#34;&#34;&#34;
 
-    def __init__(self, field, message):
+    def __init__(self, field: str, message: str) -&gt; Exception:
         self.field = field
         self.message = message</code></pre>
 </details>
