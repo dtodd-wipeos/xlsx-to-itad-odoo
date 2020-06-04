@@ -1,0 +1,1512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>xlsx-to-itad-odoo.app API documentation</title>
+<meta name="description" content="A Really hacky script (not really), who&#39;s purpose
+is to import oddly formatted data that was provided
+on a customer pickup to data that the erp is
+…" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>xlsx-to-itad-odoo.app</code></h1>
+</header>
+<section id="section-intro">
+<p>A Really hacky script (not really), who's purpose
+is to import oddly formatted data that was provided
+on a customer pickup to data that the erp is
+expecting. This will accomplish the import via
+the XMLRPC interface</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Part of XLSX to Odoo import
+# Copyright 2020 David Todd &lt;dtodd@oceantech.com&gt;
+# License: MIT License, refer to `license.md` for more information
+
+# pylint: disable=import-error
+
+&#34;&#34;&#34;
+    A Really hacky script (not really), who&#39;s purpose
+    is to import oddly formatted data that was provided
+    on a customer pickup to data that the erp is
+    expecting. This will accomplish the import via
+    the XMLRPC interface
+&#34;&#34;&#34;
+
+import os
+import csv
+import time
+import logging
+import itertools
+
+from openpyxl import load_workbook
+from record import Record
+from api import API
+
+# Odoo Stuff
+# The database ID of the asset catalog we are importing into
+ASSET_CATALOG_ID = int(os.environ.get(&#39;odoo_asset_catalog_id&#39;, 0))
+# The database ID of the data destruction we are importing into
+DATA_DESTRUCTION_ID = int(os.environ.get(&#39;odoo_data_destruction_id&#39;, 0))
+
+# Spreadsheet Stuff
+SPREADSHEET = os.environ.get(&#39;spreadsheet&#39;, &#39;&#39;)
+SHEET = os.environ.get(&#39;sheet&#39;, &#39;&#39;)
+FIRST_ROW = int(os.environ.get(&#39;first_row&#39;, 1))
+LAST_ROW = int(os.environ.get(&#39;last_row&#39;, 2000))
+LAST_COL = int(os.environ.get(&#39;last_col&#39;, 6))
+
+# Items in this list will always create a Record (though that record
+# won&#39;t get uploaded to the ERP), and will additionally be added to
+# a spreadsheet as they are come across
+SERIALS_TO_IGNORE = os.environ.get(&#39;serials_to_ignore&#39;).strip().split(&#39;\n&#39;)
+
+FILENAME_TIME = &#39;%s&#39; % (time.time())
+IGNORE_CSV = &#39;%s.csv&#39; % (FILENAME_TIME)
+
+# Logging
+logging.basicConfig(
+    filename=&#39;%s.log&#39; % (FILENAME_TIME),
+    level=logging.DEBUG,
+    format=&#39;%(asctime)s - %(levelname)s - %(message)s&#39;,
+    datefmt=&#39;%m/%d/%Y %I:%M:%S %p&#39;
+)
+# Log to console and file
+CONSOLE = logging.StreamHandler()
+CONSOLE.setLevel(logging.INFO)
+FORMATTER = logging.Formatter(&#39;%(asctime)s %(levelname)s %(message)s&#39;)
+CONSOLE.setFormatter(FORMATTER)
+logging.getLogger(&#39;&#39;).addHandler(CONSOLE)
+
+# Sanity Checks
+if ASSET_CATALOG_ID &lt;= 0:
+    logging.warning(&#39;Zero or negative asset catalog. Records will not get uploaded to it&#39;)
+if DATA_DESTRUCTION_ID &lt;= 0:
+    logging.warning(&#39;Zero or negative data destruction. Records will not get uploaded to it&#39;)
+
+class ProcessWorkbook:
+    &#34;&#34;&#34;
+        Provides a mechanism for extracting the content
+        from the workbook and uploading it to Odoo
+    &#34;&#34;&#34;
+
+    # pylint: disable=too-many-instance-attributes
+    def __init__(self):
+        self.api = API()
+        self.workbook = load_workbook(filename=SPREADSHEET, data_only=True)[SHEET]
+
+        # Special Serials
+        self.ignore_csv_file = open(IGNORE_CSV, &#39;w&#39;)
+        self.ignore_csv = csv.DictWriter(
+            self.ignore_csv_file,
+            fieldnames=[
+                &#39;serial&#39;, &#39;asset_tag&#39;, &#39;make&#39;,
+                &#39;model&#39;, &#39;device_type&#39;, &#39;children&#39;
+            ],
+            dialect=csv.excel
+        )
+        self.ignore_csv.writeheader()
+
+        # Failed records are rows that for one reason or another didn&#39;t generate a Record object
+        self.failed_records = list()
+        self.records = list()
+        self.records_to_upload = list()
+        self.last_parent = None
+
+        # These lists are expected to contain one or more Tuples
+        # Each Tuple will be of the format (make, model)
+        self.models_to_search = list()
+        self.models_to_create = list()
+        # The Tuples here will be of the format ((make, model), id)
+        self.models_to_ids = list()
+
+        # Serials that match items in this list will always
+        # be returned False from `self.serial_in_records`
+        self.serials_to_ignore = [None, &#39;&#39;, &#39;N/A&#39;]
+        self.serials_to_ignore.extend(SERIALS_TO_IGNORE)
+
+        self.rows_processed = 0
+        self.sorting_records_uploaded = 0
+        self.data_records_uploaded = 0
+        self.records_ignored = 0
+
+        logging.info(&#39;Initialized ProcessWorkbook&#39;)
+
+    def __del__(self):
+        &#34;&#34;&#34;
+            Automatically closes file handlers when destructed normally
+        &#34;&#34;&#34;
+        self.ignore_csv_file.close()
+
+        logging.info(&#39;Processed %d rows&#39;, (self.rows_processed))
+        logging.info(&#39;Created %d Records&#39;, (len(self.records)))
+        logging.info(&#39;Uploaded %d Sorting Assets&#39;, (self.sorting_records_uploaded))
+        logging.info(&#39;Uploaded %d Data Destruction Assets&#39;, (self.data_records_uploaded))
+        logging.info(&#39;Prevented %d Records from being uploaded&#39;, (self.records_ignored))
+
+        for row in self.failed_records:
+            # pylint: disable=logging-not-lazy
+            logging.info(
+                &#39;Row that failed Record Creation: %s | %s | %s | %s | %s&#39; % (
+                    row[0].value,
+                    row[1].value,
+                    row[3].value,
+                    row[4].value,
+                    row[5].value
+                )
+            )
+
+        logging.info(&#39;ProcessWorkbook Finished&#39;)
+
+    def get_id_from_model(self, model):
+        &#34;&#34;&#34;
+            Searches `self.models_to_ids` for
+            a matching `model`, and returns the
+            id if there is one. Returns None
+            otherwise
+        &#34;&#34;&#34;
+        for item in self.models_to_ids:
+            if model == item[0][1]:
+                return item[1]
+        return None
+
+    def serial_in_records(self, serial, records=None):
+        &#34;&#34;&#34;
+            Determines if a particular serial number
+            is in a record list, and returns True if so;
+            otherwise, returns False
+
+            `serial` is a string to check against the
+            record list
+
+            `records` is an optional argument that will
+            search that specific record list (such as a
+            parent&#39;s children) instead of just the parent
+            records.
+
+            If the serial is to be ignored, this will
+            always return False, to allow the Record object
+            to be created (used to save it to a csv)
+        &#34;&#34;&#34;
+        if records is None:
+            records = self.records
+        if serial in self.serials_to_ignore:
+            return False
+        if serial in [record.serial for record in records if record.serial]:
+            return True
+        return False
+
+    def create_record_from_row(self, row, parent=True, search_model=True):
+        &#34;&#34;&#34;
+            With a provided `row`, this method will first search
+            for a matching serial number and if it doesn&#39;t exist,
+            a new Record will be created with that row&#39;s data.
+            If the row&#39;s serial number is special, the record will
+            be created regardless of one already existing.
+
+            `parent` is an optional argument that sets the `last_parent`
+            attribute. `last_parent` is used to append new Records to
+            a parent&#39;s `children` attribute.
+
+            `search_model` is an optional argument that when True
+            will search Odoo for that record&#39;s model (to be created
+            if it can&#39;t be found)
+
+            If the serial number isn&#39;t in the list, this returns the
+            created Record object. Otherwise, it returns False
+        &#34;&#34;&#34;
+
+        serial = str(row[0].value)
+        if not self.serial_in_records(serial):
+            # pylint: disable=bad-whitespace
+            logging.debug(&#39;Creating Record for %s&#39;, (serial))
+            record = Record(
+                serial = serial,
+                asset_tag = str(row[1].value),
+                make = str(row[3].value),
+                model = str(row[4].value),
+                device_type = str(row[5].value),
+                children = None
+            )
+
+            if parent:
+                record.children = list()
+                self.last_parent = record
+
+            if search_model:
+                # Add unique models so we can search for their sellable ids
+                if record.model not in itertools.chain(*self.models_to_search):
+                    self.models_to_search.append((record.make, record.model))
+
+            return record
+        return False
+
+    def build_record_list(self):
+        &#34;&#34;&#34;
+            Reads the workbook and sorts each row into
+            multiple instances of the Record class.
+
+            When this method comes across a &#34;Parent&#34;
+            record, it stores that Record instance, which
+            will be used whenever this method comes across
+            a &#34;Child&#34; record.
+
+            When this method comes across a &#34;Child&#34;
+            record, it gets appended to the `children`
+            list of the stored parent object.
+
+            When there is no relationship, the Record
+            will still be created, without any Children
+
+            Returns `self` (this instance of ProcessWorkbook)
+        &#34;&#34;&#34;
+        logging.info(&#39;Getting rows from the spreadsheet and sorting relationships&#39;)
+        # pylint: disable=bad-continuation
+        for row in self.workbook.iter_rows(
+            min_row=FIRST_ROW,
+            max_col=LAST_COL,
+            max_row=LAST_ROW
+        ):
+
+            relationship = row[2].value
+
+            if relationship == &#39;Parent&#39;:
+                record = self.create_record_from_row(row, True)
+                if record:
+                    self.records.append(record)
+
+            elif relationship == &#39;Child&#39;:
+                record = self.create_record_from_row(row, False, False)
+                if record:
+                    self.last_parent.children.append(record)
+
+            else:
+                record = self.create_record_from_row(row, False)
+                if record:
+                    self.records.append(record)
+
+            if not record:
+                self.failed_records.append(row)
+
+            self.rows_processed += 1
+
+        return self
+
+    def get_records(self):
+        &#34;&#34;&#34;
+            Deprecated, use `build_record_list` instead.
+        &#34;&#34;&#34;
+        logging.warning(&#39;get_records is deprecated and will be removed in the future.&#39;)
+        logging.warning(&#39;Please use `build_record_list` instead.&#39;)
+        return self.build_record_list()
+
+    def show_records(self):
+        &#34;&#34;&#34;
+            Logs all of the records stored, in JSON format
+        &#34;&#34;&#34;
+        # pylint: disable=unnecessary-comprehension
+        logging.debug([record for record in self.records])
+
+    def get_odoo_model_ids(self):
+        &#34;&#34;&#34;
+            Iterates over unique models and searches
+            Odoo for the database id of those models.
+            Once the search is complete, `self.models_to_ids`
+            contains a mapping between each unique model
+            name and the database id.
+
+            When a model can&#39;t be found, that model is logged
+            so that a manual search can be done, or a new item
+            can be created.
+
+            When a model returns multiple ids, that model is
+            logged so that a manual search can be done to
+            select the &#34;correct&#34; database id.
+
+            Returns `self` (this instance of ProcessWorkbook)
+        &#34;&#34;&#34;
+        logging.info(&#39;Searching Odoo for sellable items with matching models&#39;)
+        for model in self.models_to_search:
+            odoo_records = self.api.do_search_and_read(
+                &#39;erpwarehouse.sellable&#39;,
+                [(&#39;model&#39;, &#39;ilike&#39;, model[1])]
+            )
+
+            if not odoo_records:
+                logging.warning(&#39;Unable to find model: %s&#39;, (model[1]))
+                self.models_to_create.append(model)
+            else:
+                # If the search returns more than one, we&#39;ll
+                # assume that it was the first one since some
+                # models are duplicated (for whatever reason)
+                self.models_to_ids.append((model, odoo_records[0][&#39;id&#39;]))
+
+    def create_missing_model_ids(self):
+        &#34;&#34;&#34;
+            For any models that couldn&#39;t be located
+            when initally searched, create them and
+            then store those newly created ids
+
+            Returns `self` (this instance of ProcessWorkbook)
+        &#34;&#34;&#34;
+        logging.info(&#39;Creating sellable items for missing models&#39;)
+        for model in self.models_to_create:
+            logging.info(&#39;Creating model: %s&#39;, (model[1]))
+            result = self.api.do_create(
+                &#39;erpwarehouse.sellable&#39;,
+                {
+                    &#39;make&#39;: model[0],
+                    &#39;model&#39;: model[1]
+                }
+            )
+            self.models_to_ids.append((model, result))
+
+        return self
+
+    def asset_line_exists(self, record):
+        &#34;&#34;&#34;
+            Searches the asset catalog for
+            a line item matching the provided `record`.
+
+            Determines if a line is the same if either the
+            serial number was previously recorded.
+
+            Returns True if there is an existing record in Odoo,
+            False otherwise.
+        &#34;&#34;&#34;
+        logging.debug(&#39;Checking if &#34;%s&#34; already exists before creation in Odoo&#39;, (record.serial))
+        result = self.api.do_search(
+            &#39;erpwarehouse.asset&#39;,
+            [
+                (&#39;catalog&#39;, &#39;=&#39;, ASSET_CATALOG_ID),
+                (&#39;make&#39;, &#39;=&#39;, self.get_id_from_model(record.model)),
+                (&#39;serial&#39;, &#39;=ilike&#39;, record.serial),
+            ]
+        )
+        if len(result) &gt; 0:
+            return True
+        return False
+
+    def _create_asset_catalog_line(self, record):
+        &#34;&#34;&#34;
+            With the provided `record` (Record) instance,
+            this method will issue an API request to Odoo
+            to create the line item after searching Odoo
+            for that record.
+        &#34;&#34;&#34;
+        if self.get_id_from_model(record.model):
+            if not self.asset_line_exists(record):
+                result = self.api.do_create(
+                    &#39;erpwarehouse.asset&#39;,
+                    {
+                        &#39;catalog&#39;: ASSET_CATALOG_ID,
+                        &#39;make&#39;: self.get_id_from_model(record.model),
+                        &#39;serial&#39;: record.serial,
+                        &#39;tag&#39;: record.asset_tag,
+                    }
+                )
+                self.sorting_records_uploaded += 1
+                logging.debug(&#39;Added id: %s&#39;, (result))
+            else:
+                logging.warning(&#39;&#34;%s&#34; already existed, so it was skipped&#39;, (record.serial))
+        else:
+            logging.error(&#39;Unable to add &#34;%s&#34; as there is no sellable id&#39;, (record.serial))
+
+        return self
+
+    def _create_data_destruction_line(self, record, child=False):
+        &#34;&#34;&#34;
+            With the provided `record` and optional `child` Record
+            instances, this method will issue an API request to
+            Odoo to create the line item
+        &#34;&#34;&#34;
+
+        device_type = &#39;0&#39;
+        if record.device_type == &#39;Hard Drive&#39;:
+            device_type = &#39;H&#39;
+        elif record.device_type == &#39;Network&#39;:
+            device_type = &#39;N&#39;
+        elif record.device_type == &#39;Tape&#39;:
+            device_type = &#39;T&#39;
+
+        if child:
+            if child.device_type == &#39;Hard Drive&#39;:
+                device_type = &#39;H&#39;
+            elif child.device_type == &#39;Network&#39;:
+                device_type = &#39;N&#39;
+            elif child.device_type == &#39;Tape&#39;:
+                device_type = &#39;T&#39;
+
+        if self.get_id_from_model(record.model):
+            result = self.api.do_create(
+                &#39;erpwarehouse.ddl_item&#39;,
+                {
+                    &#39;ddl&#39;: DATA_DESTRUCTION_ID,
+                    &#39;make&#39;: self.get_id_from_model(record.model),
+                    &#39;serial&#39;: record.serial,
+                    &#39;storser&#39;: child.serial if child else &#39;N/A&#39;,
+                    &#39;type&#39;: device_type,
+                })
+            self.data_records_uploaded += 1
+            logging.debug(&#39;Added id: %s&#39;, (result))
+        else:
+            logging.error(&#39;Unable to add &#34;%s&#34; as there is no sellable id&#39;, (record.serial))
+
+        return self
+
+    def create_line_items(self):
+        &#34;&#34;&#34;
+            For all the records that we can
+            process (there&#39;s a mapped model),
+            create the asset catalog and
+            data destruction line items.
+
+            Returns `self` (this instance of ProcessWorkbook)
+        &#34;&#34;&#34;
+        logging.info(&#39;Creating Line items for accepted records in Odoo&#39;)
+        for record in self.records_to_upload:
+
+            if ASSET_CATALOG_ID:
+                self._create_asset_catalog_line(record)
+
+            if DATA_DESTRUCTION_ID:
+                if not record.children:
+                    self._create_data_destruction_line(record)
+                else:
+                    for child in record.children:
+                        self._create_data_destruction_line(record, child)
+
+        return self
+
+    def remove_ignored_records(self):
+        &#34;&#34;&#34;
+            Populates `self.records_to_upload` with
+            any record that is not also a part of the
+            `self.serials_to_ignore` list, counts the
+            serials that were ignored, and writes those
+            rows to an ignore csv
+        &#34;&#34;&#34;
+        logging.info(&#39;Removing Ignored Serials from Records&#39;)
+
+        for record in self.records:
+            if record.serial in self.serials_to_ignore:
+                self.records_ignored += 1
+                logging.warning(
+                    &#39;&#34;%s&#34; is special, skipping import and saving to special list&#39;, (record.serial)
+                )
+                self.ignore_csv.writerow({
+                    &#39;serial&#39;: record.serial,
+                    &#39;asset_tag&#39;: record.asset_tag,
+                    &#39;make&#39;: record.make,
+                    &#39;model&#39;: record.model,
+                    &#39;device_type&#39;: record.device_type,
+                    &#39;children&#39;: record.children,
+                })
+            else:
+                self.records_to_upload.append(record)
+
+    def run(self):
+        &#34;&#34;&#34;
+            Runs everything in the order that is required
+        &#34;&#34;&#34;
+        self.build_record_list()
+        self.show_records()
+        self.get_odoo_model_ids()
+        self.create_missing_model_ids()
+        self.remove_ignored_records()
+        self.create_line_items()
+
+if __name__ == &#39;__main__&#39;:
+    ProcessWorkbook().run()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook"><code class="flex name class">
+<span>class <span class="ident">ProcessWorkbook</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Provides a mechanism for extracting the content
+from the workbook and uploading it to Odoo</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ProcessWorkbook:
+    &#34;&#34;&#34;
+        Provides a mechanism for extracting the content
+        from the workbook and uploading it to Odoo
+    &#34;&#34;&#34;
+
+    # pylint: disable=too-many-instance-attributes
+    def __init__(self):
+        self.api = API()
+        self.workbook = load_workbook(filename=SPREADSHEET, data_only=True)[SHEET]
+
+        # Special Serials
+        self.ignore_csv_file = open(IGNORE_CSV, &#39;w&#39;)
+        self.ignore_csv = csv.DictWriter(
+            self.ignore_csv_file,
+            fieldnames=[
+                &#39;serial&#39;, &#39;asset_tag&#39;, &#39;make&#39;,
+                &#39;model&#39;, &#39;device_type&#39;, &#39;children&#39;
+            ],
+            dialect=csv.excel
+        )
+        self.ignore_csv.writeheader()
+
+        # Failed records are rows that for one reason or another didn&#39;t generate a Record object
+        self.failed_records = list()
+        self.records = list()
+        self.records_to_upload = list()
+        self.last_parent = None
+
+        # These lists are expected to contain one or more Tuples
+        # Each Tuple will be of the format (make, model)
+        self.models_to_search = list()
+        self.models_to_create = list()
+        # The Tuples here will be of the format ((make, model), id)
+        self.models_to_ids = list()
+
+        # Serials that match items in this list will always
+        # be returned False from `self.serial_in_records`
+        self.serials_to_ignore = [None, &#39;&#39;, &#39;N/A&#39;]
+        self.serials_to_ignore.extend(SERIALS_TO_IGNORE)
+
+        self.rows_processed = 0
+        self.sorting_records_uploaded = 0
+        self.data_records_uploaded = 0
+        self.records_ignored = 0
+
+        logging.info(&#39;Initialized ProcessWorkbook&#39;)
+
+    def __del__(self):
+        &#34;&#34;&#34;
+            Automatically closes file handlers when destructed normally
+        &#34;&#34;&#34;
+        self.ignore_csv_file.close()
+
+        logging.info(&#39;Processed %d rows&#39;, (self.rows_processed))
+        logging.info(&#39;Created %d Records&#39;, (len(self.records)))
+        logging.info(&#39;Uploaded %d Sorting Assets&#39;, (self.sorting_records_uploaded))
+        logging.info(&#39;Uploaded %d Data Destruction Assets&#39;, (self.data_records_uploaded))
+        logging.info(&#39;Prevented %d Records from being uploaded&#39;, (self.records_ignored))
+
+        for row in self.failed_records:
+            # pylint: disable=logging-not-lazy
+            logging.info(
+                &#39;Row that failed Record Creation: %s | %s | %s | %s | %s&#39; % (
+                    row[0].value,
+                    row[1].value,
+                    row[3].value,
+                    row[4].value,
+                    row[5].value
+                )
+            )
+
+        logging.info(&#39;ProcessWorkbook Finished&#39;)
+
+    def get_id_from_model(self, model):
+        &#34;&#34;&#34;
+            Searches `self.models_to_ids` for
+            a matching `model`, and returns the
+            id if there is one. Returns None
+            otherwise
+        &#34;&#34;&#34;
+        for item in self.models_to_ids:
+            if model == item[0][1]:
+                return item[1]
+        return None
+
+    def serial_in_records(self, serial, records=None):
+        &#34;&#34;&#34;
+            Determines if a particular serial number
+            is in a record list, and returns True if so;
+            otherwise, returns False
+
+            `serial` is a string to check against the
+            record list
+
+            `records` is an optional argument that will
+            search that specific record list (such as a
+            parent&#39;s children) instead of just the parent
+            records.
+
+            If the serial is to be ignored, this will
+            always return False, to allow the Record object
+            to be created (used to save it to a csv)
+        &#34;&#34;&#34;
+        if records is None:
+            records = self.records
+        if serial in self.serials_to_ignore:
+            return False
+        if serial in [record.serial for record in records if record.serial]:
+            return True
+        return False
+
+    def create_record_from_row(self, row, parent=True, search_model=True):
+        &#34;&#34;&#34;
+            With a provided `row`, this method will first search
+            for a matching serial number and if it doesn&#39;t exist,
+            a new Record will be created with that row&#39;s data.
+            If the row&#39;s serial number is special, the record will
+            be created regardless of one already existing.
+
+            `parent` is an optional argument that sets the `last_parent`
+            attribute. `last_parent` is used to append new Records to
+            a parent&#39;s `children` attribute.
+
+            `search_model` is an optional argument that when True
+            will search Odoo for that record&#39;s model (to be created
+            if it can&#39;t be found)
+
+            If the serial number isn&#39;t in the list, this returns the
+            created Record object. Otherwise, it returns False
+        &#34;&#34;&#34;
+
+        serial = str(row[0].value)
+        if not self.serial_in_records(serial):
+            # pylint: disable=bad-whitespace
+            logging.debug(&#39;Creating Record for %s&#39;, (serial))
+            record = Record(
+                serial = serial,
+                asset_tag = str(row[1].value),
+                make = str(row[3].value),
+                model = str(row[4].value),
+                device_type = str(row[5].value),
+                children = None
+            )
+
+            if parent:
+                record.children = list()
+                self.last_parent = record
+
+            if search_model:
+                # Add unique models so we can search for their sellable ids
+                if record.model not in itertools.chain(*self.models_to_search):
+                    self.models_to_search.append((record.make, record.model))
+
+            return record
+        return False
+
+    def build_record_list(self):
+        &#34;&#34;&#34;
+            Reads the workbook and sorts each row into
+            multiple instances of the Record class.
+
+            When this method comes across a &#34;Parent&#34;
+            record, it stores that Record instance, which
+            will be used whenever this method comes across
+            a &#34;Child&#34; record.
+
+            When this method comes across a &#34;Child&#34;
+            record, it gets appended to the `children`
+            list of the stored parent object.
+
+            When there is no relationship, the Record
+            will still be created, without any Children
+
+            Returns `self` (this instance of ProcessWorkbook)
+        &#34;&#34;&#34;
+        logging.info(&#39;Getting rows from the spreadsheet and sorting relationships&#39;)
+        # pylint: disable=bad-continuation
+        for row in self.workbook.iter_rows(
+            min_row=FIRST_ROW,
+            max_col=LAST_COL,
+            max_row=LAST_ROW
+        ):
+
+            relationship = row[2].value
+
+            if relationship == &#39;Parent&#39;:
+                record = self.create_record_from_row(row, True)
+                if record:
+                    self.records.append(record)
+
+            elif relationship == &#39;Child&#39;:
+                record = self.create_record_from_row(row, False, False)
+                if record:
+                    self.last_parent.children.append(record)
+
+            else:
+                record = self.create_record_from_row(row, False)
+                if record:
+                    self.records.append(record)
+
+            if not record:
+                self.failed_records.append(row)
+
+            self.rows_processed += 1
+
+        return self
+
+    def get_records(self):
+        &#34;&#34;&#34;
+            Deprecated, use `build_record_list` instead.
+        &#34;&#34;&#34;
+        logging.warning(&#39;get_records is deprecated and will be removed in the future.&#39;)
+        logging.warning(&#39;Please use `build_record_list` instead.&#39;)
+        return self.build_record_list()
+
+    def show_records(self):
+        &#34;&#34;&#34;
+            Logs all of the records stored, in JSON format
+        &#34;&#34;&#34;
+        # pylint: disable=unnecessary-comprehension
+        logging.debug([record for record in self.records])
+
+    def get_odoo_model_ids(self):
+        &#34;&#34;&#34;
+            Iterates over unique models and searches
+            Odoo for the database id of those models.
+            Once the search is complete, `self.models_to_ids`
+            contains a mapping between each unique model
+            name and the database id.
+
+            When a model can&#39;t be found, that model is logged
+            so that a manual search can be done, or a new item
+            can be created.
+
+            When a model returns multiple ids, that model is
+            logged so that a manual search can be done to
+            select the &#34;correct&#34; database id.
+
+            Returns `self` (this instance of ProcessWorkbook)
+        &#34;&#34;&#34;
+        logging.info(&#39;Searching Odoo for sellable items with matching models&#39;)
+        for model in self.models_to_search:
+            odoo_records = self.api.do_search_and_read(
+                &#39;erpwarehouse.sellable&#39;,
+                [(&#39;model&#39;, &#39;ilike&#39;, model[1])]
+            )
+
+            if not odoo_records:
+                logging.warning(&#39;Unable to find model: %s&#39;, (model[1]))
+                self.models_to_create.append(model)
+            else:
+                # If the search returns more than one, we&#39;ll
+                # assume that it was the first one since some
+                # models are duplicated (for whatever reason)
+                self.models_to_ids.append((model, odoo_records[0][&#39;id&#39;]))
+
+    def create_missing_model_ids(self):
+        &#34;&#34;&#34;
+            For any models that couldn&#39;t be located
+            when initally searched, create them and
+            then store those newly created ids
+
+            Returns `self` (this instance of ProcessWorkbook)
+        &#34;&#34;&#34;
+        logging.info(&#39;Creating sellable items for missing models&#39;)
+        for model in self.models_to_create:
+            logging.info(&#39;Creating model: %s&#39;, (model[1]))
+            result = self.api.do_create(
+                &#39;erpwarehouse.sellable&#39;,
+                {
+                    &#39;make&#39;: model[0],
+                    &#39;model&#39;: model[1]
+                }
+            )
+            self.models_to_ids.append((model, result))
+
+        return self
+
+    def asset_line_exists(self, record):
+        &#34;&#34;&#34;
+            Searches the asset catalog for
+            a line item matching the provided `record`.
+
+            Determines if a line is the same if either the
+            serial number was previously recorded.
+
+            Returns True if there is an existing record in Odoo,
+            False otherwise.
+        &#34;&#34;&#34;
+        logging.debug(&#39;Checking if &#34;%s&#34; already exists before creation in Odoo&#39;, (record.serial))
+        result = self.api.do_search(
+            &#39;erpwarehouse.asset&#39;,
+            [
+                (&#39;catalog&#39;, &#39;=&#39;, ASSET_CATALOG_ID),
+                (&#39;make&#39;, &#39;=&#39;, self.get_id_from_model(record.model)),
+                (&#39;serial&#39;, &#39;=ilike&#39;, record.serial),
+            ]
+        )
+        if len(result) &gt; 0:
+            return True
+        return False
+
+    def _create_asset_catalog_line(self, record):
+        &#34;&#34;&#34;
+            With the provided `record` (Record) instance,
+            this method will issue an API request to Odoo
+            to create the line item after searching Odoo
+            for that record.
+        &#34;&#34;&#34;
+        if self.get_id_from_model(record.model):
+            if not self.asset_line_exists(record):
+                result = self.api.do_create(
+                    &#39;erpwarehouse.asset&#39;,
+                    {
+                        &#39;catalog&#39;: ASSET_CATALOG_ID,
+                        &#39;make&#39;: self.get_id_from_model(record.model),
+                        &#39;serial&#39;: record.serial,
+                        &#39;tag&#39;: record.asset_tag,
+                    }
+                )
+                self.sorting_records_uploaded += 1
+                logging.debug(&#39;Added id: %s&#39;, (result))
+            else:
+                logging.warning(&#39;&#34;%s&#34; already existed, so it was skipped&#39;, (record.serial))
+        else:
+            logging.error(&#39;Unable to add &#34;%s&#34; as there is no sellable id&#39;, (record.serial))
+
+        return self
+
+    def _create_data_destruction_line(self, record, child=False):
+        &#34;&#34;&#34;
+            With the provided `record` and optional `child` Record
+            instances, this method will issue an API request to
+            Odoo to create the line item
+        &#34;&#34;&#34;
+
+        device_type = &#39;0&#39;
+        if record.device_type == &#39;Hard Drive&#39;:
+            device_type = &#39;H&#39;
+        elif record.device_type == &#39;Network&#39;:
+            device_type = &#39;N&#39;
+        elif record.device_type == &#39;Tape&#39;:
+            device_type = &#39;T&#39;
+
+        if child:
+            if child.device_type == &#39;Hard Drive&#39;:
+                device_type = &#39;H&#39;
+            elif child.device_type == &#39;Network&#39;:
+                device_type = &#39;N&#39;
+            elif child.device_type == &#39;Tape&#39;:
+                device_type = &#39;T&#39;
+
+        if self.get_id_from_model(record.model):
+            result = self.api.do_create(
+                &#39;erpwarehouse.ddl_item&#39;,
+                {
+                    &#39;ddl&#39;: DATA_DESTRUCTION_ID,
+                    &#39;make&#39;: self.get_id_from_model(record.model),
+                    &#39;serial&#39;: record.serial,
+                    &#39;storser&#39;: child.serial if child else &#39;N/A&#39;,
+                    &#39;type&#39;: device_type,
+                })
+            self.data_records_uploaded += 1
+            logging.debug(&#39;Added id: %s&#39;, (result))
+        else:
+            logging.error(&#39;Unable to add &#34;%s&#34; as there is no sellable id&#39;, (record.serial))
+
+        return self
+
+    def create_line_items(self):
+        &#34;&#34;&#34;
+            For all the records that we can
+            process (there&#39;s a mapped model),
+            create the asset catalog and
+            data destruction line items.
+
+            Returns `self` (this instance of ProcessWorkbook)
+        &#34;&#34;&#34;
+        logging.info(&#39;Creating Line items for accepted records in Odoo&#39;)
+        for record in self.records_to_upload:
+
+            if ASSET_CATALOG_ID:
+                self._create_asset_catalog_line(record)
+
+            if DATA_DESTRUCTION_ID:
+                if not record.children:
+                    self._create_data_destruction_line(record)
+                else:
+                    for child in record.children:
+                        self._create_data_destruction_line(record, child)
+
+        return self
+
+    def remove_ignored_records(self):
+        &#34;&#34;&#34;
+            Populates `self.records_to_upload` with
+            any record that is not also a part of the
+            `self.serials_to_ignore` list, counts the
+            serials that were ignored, and writes those
+            rows to an ignore csv
+        &#34;&#34;&#34;
+        logging.info(&#39;Removing Ignored Serials from Records&#39;)
+
+        for record in self.records:
+            if record.serial in self.serials_to_ignore:
+                self.records_ignored += 1
+                logging.warning(
+                    &#39;&#34;%s&#34; is special, skipping import and saving to special list&#39;, (record.serial)
+                )
+                self.ignore_csv.writerow({
+                    &#39;serial&#39;: record.serial,
+                    &#39;asset_tag&#39;: record.asset_tag,
+                    &#39;make&#39;: record.make,
+                    &#39;model&#39;: record.model,
+                    &#39;device_type&#39;: record.device_type,
+                    &#39;children&#39;: record.children,
+                })
+            else:
+                self.records_to_upload.append(record)
+
+    def run(self):
+        &#34;&#34;&#34;
+            Runs everything in the order that is required
+        &#34;&#34;&#34;
+        self.build_record_list()
+        self.show_records()
+        self.get_odoo_model_ids()
+        self.create_missing_model_ids()
+        self.remove_ignored_records()
+        self.create_line_items()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.asset_line_exists"><code class="name flex">
+<span>def <span class="ident">asset_line_exists</span></span>(<span>self, record)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Searches the asset catalog for
+a line item matching the provided <code>record</code>.</p>
+<p>Determines if a line is the same if either the
+serial number was previously recorded.</p>
+<p>Returns True if there is an existing record in Odoo,
+False otherwise.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def asset_line_exists(self, record):
+    &#34;&#34;&#34;
+        Searches the asset catalog for
+        a line item matching the provided `record`.
+
+        Determines if a line is the same if either the
+        serial number was previously recorded.
+
+        Returns True if there is an existing record in Odoo,
+        False otherwise.
+    &#34;&#34;&#34;
+    logging.debug(&#39;Checking if &#34;%s&#34; already exists before creation in Odoo&#39;, (record.serial))
+    result = self.api.do_search(
+        &#39;erpwarehouse.asset&#39;,
+        [
+            (&#39;catalog&#39;, &#39;=&#39;, ASSET_CATALOG_ID),
+            (&#39;make&#39;, &#39;=&#39;, self.get_id_from_model(record.model)),
+            (&#39;serial&#39;, &#39;=ilike&#39;, record.serial),
+        ]
+    )
+    if len(result) &gt; 0:
+        return True
+    return False</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.build_record_list"><code class="name flex">
+<span>def <span class="ident">build_record_list</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reads the workbook and sorts each row into
+multiple instances of the Record class.</p>
+<p>When this method comes across a "Parent"
+record, it stores that Record instance, which
+will be used whenever this method comes across
+a "Child" record.</p>
+<p>When this method comes across a "Child"
+record, it gets appended to the <code>children</code>
+list of the stored parent object.</p>
+<p>When there is no relationship, the Record
+will still be created, without any Children</p>
+<p>Returns <code>self</code> (this instance of ProcessWorkbook)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def build_record_list(self):
+    &#34;&#34;&#34;
+        Reads the workbook and sorts each row into
+        multiple instances of the Record class.
+
+        When this method comes across a &#34;Parent&#34;
+        record, it stores that Record instance, which
+        will be used whenever this method comes across
+        a &#34;Child&#34; record.
+
+        When this method comes across a &#34;Child&#34;
+        record, it gets appended to the `children`
+        list of the stored parent object.
+
+        When there is no relationship, the Record
+        will still be created, without any Children
+
+        Returns `self` (this instance of ProcessWorkbook)
+    &#34;&#34;&#34;
+    logging.info(&#39;Getting rows from the spreadsheet and sorting relationships&#39;)
+    # pylint: disable=bad-continuation
+    for row in self.workbook.iter_rows(
+        min_row=FIRST_ROW,
+        max_col=LAST_COL,
+        max_row=LAST_ROW
+    ):
+
+        relationship = row[2].value
+
+        if relationship == &#39;Parent&#39;:
+            record = self.create_record_from_row(row, True)
+            if record:
+                self.records.append(record)
+
+        elif relationship == &#39;Child&#39;:
+            record = self.create_record_from_row(row, False, False)
+            if record:
+                self.last_parent.children.append(record)
+
+        else:
+            record = self.create_record_from_row(row, False)
+            if record:
+                self.records.append(record)
+
+        if not record:
+            self.failed_records.append(row)
+
+        self.rows_processed += 1
+
+    return self</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.create_line_items"><code class="name flex">
+<span>def <span class="ident">create_line_items</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>For all the records that we can
+process (there's a mapped model),
+create the asset catalog and
+data destruction line items.</p>
+<p>Returns <code>self</code> (this instance of ProcessWorkbook)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_line_items(self):
+    &#34;&#34;&#34;
+        For all the records that we can
+        process (there&#39;s a mapped model),
+        create the asset catalog and
+        data destruction line items.
+
+        Returns `self` (this instance of ProcessWorkbook)
+    &#34;&#34;&#34;
+    logging.info(&#39;Creating Line items for accepted records in Odoo&#39;)
+    for record in self.records_to_upload:
+
+        if ASSET_CATALOG_ID:
+            self._create_asset_catalog_line(record)
+
+        if DATA_DESTRUCTION_ID:
+            if not record.children:
+                self._create_data_destruction_line(record)
+            else:
+                for child in record.children:
+                    self._create_data_destruction_line(record, child)
+
+    return self</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.create_missing_model_ids"><code class="name flex">
+<span>def <span class="ident">create_missing_model_ids</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>For any models that couldn't be located
+when initally searched, create them and
+then store those newly created ids</p>
+<p>Returns <code>self</code> (this instance of ProcessWorkbook)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_missing_model_ids(self):
+    &#34;&#34;&#34;
+        For any models that couldn&#39;t be located
+        when initally searched, create them and
+        then store those newly created ids
+
+        Returns `self` (this instance of ProcessWorkbook)
+    &#34;&#34;&#34;
+    logging.info(&#39;Creating sellable items for missing models&#39;)
+    for model in self.models_to_create:
+        logging.info(&#39;Creating model: %s&#39;, (model[1]))
+        result = self.api.do_create(
+            &#39;erpwarehouse.sellable&#39;,
+            {
+                &#39;make&#39;: model[0],
+                &#39;model&#39;: model[1]
+            }
+        )
+        self.models_to_ids.append((model, result))
+
+    return self</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.create_record_from_row"><code class="name flex">
+<span>def <span class="ident">create_record_from_row</span></span>(<span>self, row, parent=True, search_model=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>With a provided <code>row</code>, this method will first search
+for a matching serial number and if it doesn't exist,
+a new Record will be created with that row's data.
+If the row's serial number is special, the record will
+be created regardless of one already existing.</p>
+<p><code>parent</code> is an optional argument that sets the <code>last_parent</code>
+attribute. <code>last_parent</code> is used to append new Records to
+a parent's <code>children</code> attribute.</p>
+<p><code>search_model</code> is an optional argument that when True
+will search Odoo for that record's model (to be created
+if it can't be found)</p>
+<p>If the serial number isn't in the list, this returns the
+created Record object. Otherwise, it returns False</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_record_from_row(self, row, parent=True, search_model=True):
+    &#34;&#34;&#34;
+        With a provided `row`, this method will first search
+        for a matching serial number and if it doesn&#39;t exist,
+        a new Record will be created with that row&#39;s data.
+        If the row&#39;s serial number is special, the record will
+        be created regardless of one already existing.
+
+        `parent` is an optional argument that sets the `last_parent`
+        attribute. `last_parent` is used to append new Records to
+        a parent&#39;s `children` attribute.
+
+        `search_model` is an optional argument that when True
+        will search Odoo for that record&#39;s model (to be created
+        if it can&#39;t be found)
+
+        If the serial number isn&#39;t in the list, this returns the
+        created Record object. Otherwise, it returns False
+    &#34;&#34;&#34;
+
+    serial = str(row[0].value)
+    if not self.serial_in_records(serial):
+        # pylint: disable=bad-whitespace
+        logging.debug(&#39;Creating Record for %s&#39;, (serial))
+        record = Record(
+            serial = serial,
+            asset_tag = str(row[1].value),
+            make = str(row[3].value),
+            model = str(row[4].value),
+            device_type = str(row[5].value),
+            children = None
+        )
+
+        if parent:
+            record.children = list()
+            self.last_parent = record
+
+        if search_model:
+            # Add unique models so we can search for their sellable ids
+            if record.model not in itertools.chain(*self.models_to_search):
+                self.models_to_search.append((record.make, record.model))
+
+        return record
+    return False</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.get_id_from_model"><code class="name flex">
+<span>def <span class="ident">get_id_from_model</span></span>(<span>self, model)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Searches <code>self.models_to_ids</code> for
+a matching <code>model</code>, and returns the
+id if there is one. Returns None
+otherwise</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_id_from_model(self, model):
+    &#34;&#34;&#34;
+        Searches `self.models_to_ids` for
+        a matching `model`, and returns the
+        id if there is one. Returns None
+        otherwise
+    &#34;&#34;&#34;
+    for item in self.models_to_ids:
+        if model == item[0][1]:
+            return item[1]
+    return None</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.get_odoo_model_ids"><code class="name flex">
+<span>def <span class="ident">get_odoo_model_ids</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Iterates over unique models and searches
+Odoo for the database id of those models.
+Once the search is complete, <code>self.models_to_ids</code>
+contains a mapping between each unique model
+name and the database id.</p>
+<p>When a model can't be found, that model is logged
+so that a manual search can be done, or a new item
+can be created.</p>
+<p>When a model returns multiple ids, that model is
+logged so that a manual search can be done to
+select the "correct" database id.</p>
+<p>Returns <code>self</code> (this instance of ProcessWorkbook)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_odoo_model_ids(self):
+    &#34;&#34;&#34;
+        Iterates over unique models and searches
+        Odoo for the database id of those models.
+        Once the search is complete, `self.models_to_ids`
+        contains a mapping between each unique model
+        name and the database id.
+
+        When a model can&#39;t be found, that model is logged
+        so that a manual search can be done, or a new item
+        can be created.
+
+        When a model returns multiple ids, that model is
+        logged so that a manual search can be done to
+        select the &#34;correct&#34; database id.
+
+        Returns `self` (this instance of ProcessWorkbook)
+    &#34;&#34;&#34;
+    logging.info(&#39;Searching Odoo for sellable items with matching models&#39;)
+    for model in self.models_to_search:
+        odoo_records = self.api.do_search_and_read(
+            &#39;erpwarehouse.sellable&#39;,
+            [(&#39;model&#39;, &#39;ilike&#39;, model[1])]
+        )
+
+        if not odoo_records:
+            logging.warning(&#39;Unable to find model: %s&#39;, (model[1]))
+            self.models_to_create.append(model)
+        else:
+            # If the search returns more than one, we&#39;ll
+            # assume that it was the first one since some
+            # models are duplicated (for whatever reason)
+            self.models_to_ids.append((model, odoo_records[0][&#39;id&#39;]))</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.get_records"><code class="name flex">
+<span>def <span class="ident">get_records</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deprecated, use <code>build_record_list</code> instead.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_records(self):
+    &#34;&#34;&#34;
+        Deprecated, use `build_record_list` instead.
+    &#34;&#34;&#34;
+    logging.warning(&#39;get_records is deprecated and will be removed in the future.&#39;)
+    logging.warning(&#39;Please use `build_record_list` instead.&#39;)
+    return self.build_record_list()</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.remove_ignored_records"><code class="name flex">
+<span>def <span class="ident">remove_ignored_records</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Populates <code>self.records_to_upload</code> with
+any record that is not also a part of the
+<code>self.serials_to_ignore</code> list, counts the
+serials that were ignored, and writes those
+rows to an ignore csv</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_ignored_records(self):
+    &#34;&#34;&#34;
+        Populates `self.records_to_upload` with
+        any record that is not also a part of the
+        `self.serials_to_ignore` list, counts the
+        serials that were ignored, and writes those
+        rows to an ignore csv
+    &#34;&#34;&#34;
+    logging.info(&#39;Removing Ignored Serials from Records&#39;)
+
+    for record in self.records:
+        if record.serial in self.serials_to_ignore:
+            self.records_ignored += 1
+            logging.warning(
+                &#39;&#34;%s&#34; is special, skipping import and saving to special list&#39;, (record.serial)
+            )
+            self.ignore_csv.writerow({
+                &#39;serial&#39;: record.serial,
+                &#39;asset_tag&#39;: record.asset_tag,
+                &#39;make&#39;: record.make,
+                &#39;model&#39;: record.model,
+                &#39;device_type&#39;: record.device_type,
+                &#39;children&#39;: record.children,
+            })
+        else:
+            self.records_to_upload.append(record)</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Runs everything in the order that is required</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+    &#34;&#34;&#34;
+        Runs everything in the order that is required
+    &#34;&#34;&#34;
+    self.build_record_list()
+    self.show_records()
+    self.get_odoo_model_ids()
+    self.create_missing_model_ids()
+    self.remove_ignored_records()
+    self.create_line_items()</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.serial_in_records"><code class="name flex">
+<span>def <span class="ident">serial_in_records</span></span>(<span>self, serial, records=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Determines if a particular serial number
+is in a record list, and returns True if so;
+otherwise, returns False</p>
+<p><code>serial</code> is a string to check against the
+record list</p>
+<p><code>records</code> is an optional argument that will
+search that specific record list (such as a
+parent's children) instead of just the parent
+records.</p>
+<p>If the serial is to be ignored, this will
+always return False, to allow the Record object
+to be created (used to save it to a csv)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def serial_in_records(self, serial, records=None):
+    &#34;&#34;&#34;
+        Determines if a particular serial number
+        is in a record list, and returns True if so;
+        otherwise, returns False
+
+        `serial` is a string to check against the
+        record list
+
+        `records` is an optional argument that will
+        search that specific record list (such as a
+        parent&#39;s children) instead of just the parent
+        records.
+
+        If the serial is to be ignored, this will
+        always return False, to allow the Record object
+        to be created (used to save it to a csv)
+    &#34;&#34;&#34;
+    if records is None:
+        records = self.records
+    if serial in self.serials_to_ignore:
+        return False
+    if serial in [record.serial for record in records if record.serial]:
+        return True
+    return False</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.app.ProcessWorkbook.show_records"><code class="name flex">
+<span>def <span class="ident">show_records</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Logs all of the records stored, in JSON format</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_records(self):
+    &#34;&#34;&#34;
+        Logs all of the records stored, in JSON format
+    &#34;&#34;&#34;
+    # pylint: disable=unnecessary-comprehension
+    logging.debug([record for record in self.records])</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="xlsx-to-itad-odoo" href="index.html">xlsx-to-itad-odoo</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook" href="#xlsx-to-itad-odoo.app.ProcessWorkbook">ProcessWorkbook</a></code></h4>
+<ul class="">
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.asset_line_exists" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.asset_line_exists">asset_line_exists</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.build_record_list" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.build_record_list">build_record_list</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.create_line_items" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.create_line_items">create_line_items</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.create_missing_model_ids" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.create_missing_model_ids">create_missing_model_ids</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.create_record_from_row" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.create_record_from_row">create_record_from_row</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.get_id_from_model" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.get_id_from_model">get_id_from_model</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.get_odoo_model_ids" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.get_odoo_model_ids">get_odoo_model_ids</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.get_records" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.get_records">get_records</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.remove_ignored_records" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.remove_ignored_records">remove_ignored_records</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.run" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.run">run</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.serial_in_records" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.serial_in_records">serial_in_records</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.app.ProcessWorkbook.show_records" href="#xlsx-to-itad-odoo.app.ProcessWorkbook.show_records">show_records</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

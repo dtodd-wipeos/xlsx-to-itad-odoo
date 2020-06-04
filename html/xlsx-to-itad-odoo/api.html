@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>xlsx-to-itad-odoo.api API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>xlsx-to-itad-odoo.api</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Part of XLSX to Odoo import
+# Copyright 2019 David Todd &lt;dtodd@oceantech.com&gt;
+# License: MIT License, refer to `license.md` for more information
+
+# pylint: disable=missing-module-docstring
+# pylint: disable=line-too-long
+# pylint: disable=bad-continuation
+# pylint: disable=dangerous-default-value
+# pylint: disable=protected-access
+
+from exceptions import InputError
+
+import xmlrpc.client
+import ssl
+import os
+
+class API:
+    &#34;&#34;&#34;
+        Contains the methods required to connect to an Odoo XMLRPC instance
+        and to perform queries against the database.
+
+        These fields are configured via the environment:
+            `odoo_host` - string, required, the hostname of your odoo instance. Include the `http(s)://` at the beginning
+            `odoo_database` - string, required, the database your odoo instance interacts with. Case sensitive
+            `odoo_user` - integer, optional, the database id of the user to connect to the API with. Defaults to 1 for `admin`
+            `odoo_pass` - string, required, the password of the user to connect to the API with
+    &#34;&#34;&#34;
+
+    # The types of query that are able to be made to the Odoo instance
+    QUERY_TYPES = [&#39;search&#39;, &#39;create&#39;, &#39;read&#39;, &#39;write&#39;, &#39;unlink&#39;, &#39;search_read&#39;]
+
+    def __init__(self):
+        &#34;&#34;&#34;
+            Gathers Odoo information from the environment and parses the required fields
+        &#34;&#34;&#34;
+
+        self.hostname = os.environ.get(&#39;odoo_host&#39;, False)
+        self.database = os.environ.get(&#39;odoo_database&#39;, False)
+        self.user_id = os.environ.get(&#39;odoo_user&#39;, False)
+        self.user_pass = os.environ.get(&#39;odoo_pass&#39;, False)
+
+        if not self.hostname:
+            raise InputError(&#39;odoo_host&#39;,
+                &#39;The hostname of your Odoo instance is required &#39;
+                &#39;Set this by doing `export odoo_host=\&#39;&lt;your hostname&gt;\&#39;` &#39;
+                &#39;and run the script again&#39;)
+
+        if not self.database:
+            raise InputError(&#39;odoo_database&#39;,
+                &#39;The database name of your Odoo instance is required &#39;
+                &#39;Set this by doing `export odoo_database=\&#39;&lt;your database&gt;\&#39;` &#39;
+                &#39;and run the script again&#39;)
+
+        if not self.user_id:
+            print(&#34;WARNING: The odoo user id is not set, defaulting to the admin user&#34;)
+            self.user_id = 1
+        else:
+            self.user_id = int(self.user_id)
+
+        if not self.user_pass:
+            raise InputError(&#39;odoo_pass&#39;,
+                &#39;The password of your Odoo user is required &#39;
+                &#39;Set this by doing `export odoo_pass=\&#39;&lt;your password&gt;\&#39;` &#39;
+                &#39;and run the script again&#39;)
+
+    def _connect(self):
+        &#34;&#34;&#34;
+            Connects to the Odoo instance and returns an XMLRPC object
+        &#34;&#34;&#34;
+
+        endpoint = &#34;%s/xmlrpc/2/object&#34; % (self.hostname)
+        if &#34;https&#34; in endpoint:
+            # Don&#39;t verify TLS Certificates
+            # The instance could be using a self-signed cert or a CA that is not trusted by the script
+            return xmlrpc.client.ServerProxy(endpoint, context=ssl._create_unverified_context())
+        return xmlrpc.client.ServerProxy(endpoint)
+
+    def _query(self, query_type, model, query, options={}):
+        &#34;&#34;&#34;
+            Verifies the `query_type` is supported by the API
+            and executes the API request on a new XMLRPC instance, returning the result
+        &#34;&#34;&#34;
+
+        if query_type not in self.QUERY_TYPES:
+            raise InputError(&#39;query_type&#39;,
+                &#39;Incorrect Type of query. Available types are: %s&#39; % (&#39;, &#39;.join(self.QUERY_TYPES)))
+
+        return self._connect().execute_kw(
+            self.database,
+            self.user_id,
+            self.user_pass,
+            model,      # This is the &#34;table&#34; that will be interacted with, in Odoo notation (eg, `res.partner` for `res_partner` in postgresql)
+            query_type, # Alters how Odoo will behave with the `query` and `options` fields
+            [query],    # query must be a list containing either a list or dict depending on the query_type
+            options)    # options will always be an optional dict, but the keys and values will change depending on query_type
+
+    def do_search(self, model, query=[], options={&#39;limit&#39;:0}):
+        &#34;&#34;&#34;
+            Searches the `model` for `query` with `options`
+            Defaults to search all records with no limit.
+
+            `query` is an Odoo domain, for example: `[(&#39;id&#39;,&#39;=&#39;,1)]`
+
+            `options` is a dictionary that supports the following keywords:
+                `limit` - Integer, doesn&#39;t return more than this value
+                `offset` - Integer, when used in conjunction with limit, it will paginate the search results
+
+            Returns a list of record database IDs that matched the `query`
+        &#34;&#34;&#34;
+
+        return self._query(&#39;search&#39;, model, query, options)
+
+    def do_create(self, model, query):
+        &#34;&#34;&#34;
+            Creates one or more records on `model` with the supplied `query`
+
+            `query` is a dictionary of the fields that are to be added, and
+            will fail if it is missing any fields with the attribute `required=True`
+
+            `query` has data type constraint requirements:
+                `Date`, `DateTime`, `Binary (base64)` fields are all presented as str()
+                Relational fields (`one2many`, `many2one`, `many2many`) follow the pattern defined at
+                https://www.odoo.com/documentation/9.0/reference/orm.html#openerp.models.Model.write
+
+            Unlike most other query_types, it does not take any options
+
+            Returns a list of record database IDs that were created
+        &#34;&#34;&#34;
+
+        return self._query(&#39;create&#39;, model, query)
+
+    def do_read(self, model, query, options={}):
+        &#34;&#34;&#34;
+            Reads one or more records on `model` with the supplied `query`
+
+            `query` is a list of record database IDs to read
+
+            `options` is a dictionary that supports the following keywords:
+                `fields` - A list of specific fields to read from, when unset all fields are read
+
+            Returns a list of dictionaries, where each dictionary is a record with the fields that were read
+        &#34;&#34;&#34;
+
+        return self._query(&#39;read&#39;, model, query, options)
+
+    def do_update(self, model, query, options={}):
+        &#34;&#34;&#34;
+            Updates one or more records on `model`, selected with `query`
+
+            `query` is a list of record database IDs to update
+
+            `options` is a dictionary that contains the fields to change, and their new values
+
+            Returns a list of record database IDs that were updated
+        &#34;&#34;&#34;
+
+        return self._query(&#39;write&#39;, model, query, options)
+
+    def do_delete(self, model, query):
+        &#34;&#34;&#34;
+            Deletes one or more records on `model`, selected with `query`
+
+            `query` is a list of record database IDs to delete
+
+            Unlike most other query_types, it does not take any options
+
+            Returns a list of record database IDs that were deleted
+        &#34;&#34;&#34;
+
+        return self._query(&#39;unlink&#39;, model, query)
+
+    def do_search_and_read(self, model, query, options={}):
+        &#34;&#34;&#34;
+            Shortcut for `do_read()` with the result of `do_search()` being used as the `query`
+
+            `query` is an Odoo domain, for example: `[(&#39;id&#39;,&#39;=&#39;,1)]`
+
+            `options` is a dictionary that supports the following keywords:
+                `fields` - A list of specific fields to read from, when unset all fields are read.
+
+            Returns a list of dictionaries, where each dictionary is a record with the fields that were read
+        &#34;&#34;&#34;
+
+        return self._query(&#39;search_read&#39;, model, query, options)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="xlsx-to-itad-odoo.api.API"><code class="flex name class">
+<span>class <span class="ident">API</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Contains the methods required to connect to an Odoo XMLRPC instance
+and to perform queries against the database.</p>
+<p>These fields are configured via the environment:
+<code>odoo_host</code> - string, required, the hostname of your odoo instance. Include the <code>http(s)://</code> at the beginning
+<code>odoo_database</code> - string, required, the database your odoo instance interacts with. Case sensitive
+<code>odoo_user</code> - integer, optional, the database id of the user to connect to the API with. Defaults to 1 for <code>admin</code>
+<code>odoo_pass</code> - string, required, the password of the user to connect to the API with</p>
+<p>Gathers Odoo information from the environment and parses the required fields</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class API:
+    &#34;&#34;&#34;
+        Contains the methods required to connect to an Odoo XMLRPC instance
+        and to perform queries against the database.
+
+        These fields are configured via the environment:
+            `odoo_host` - string, required, the hostname of your odoo instance. Include the `http(s)://` at the beginning
+            `odoo_database` - string, required, the database your odoo instance interacts with. Case sensitive
+            `odoo_user` - integer, optional, the database id of the user to connect to the API with. Defaults to 1 for `admin`
+            `odoo_pass` - string, required, the password of the user to connect to the API with
+    &#34;&#34;&#34;
+
+    # The types of query that are able to be made to the Odoo instance
+    QUERY_TYPES = [&#39;search&#39;, &#39;create&#39;, &#39;read&#39;, &#39;write&#39;, &#39;unlink&#39;, &#39;search_read&#39;]
+
+    def __init__(self):
+        &#34;&#34;&#34;
+            Gathers Odoo information from the environment and parses the required fields
+        &#34;&#34;&#34;
+
+        self.hostname = os.environ.get(&#39;odoo_host&#39;, False)
+        self.database = os.environ.get(&#39;odoo_database&#39;, False)
+        self.user_id = os.environ.get(&#39;odoo_user&#39;, False)
+        self.user_pass = os.environ.get(&#39;odoo_pass&#39;, False)
+
+        if not self.hostname:
+            raise InputError(&#39;odoo_host&#39;,
+                &#39;The hostname of your Odoo instance is required &#39;
+                &#39;Set this by doing `export odoo_host=\&#39;&lt;your hostname&gt;\&#39;` &#39;
+                &#39;and run the script again&#39;)
+
+        if not self.database:
+            raise InputError(&#39;odoo_database&#39;,
+                &#39;The database name of your Odoo instance is required &#39;
+                &#39;Set this by doing `export odoo_database=\&#39;&lt;your database&gt;\&#39;` &#39;
+                &#39;and run the script again&#39;)
+
+        if not self.user_id:
+            print(&#34;WARNING: The odoo user id is not set, defaulting to the admin user&#34;)
+            self.user_id = 1
+        else:
+            self.user_id = int(self.user_id)
+
+        if not self.user_pass:
+            raise InputError(&#39;odoo_pass&#39;,
+                &#39;The password of your Odoo user is required &#39;
+                &#39;Set this by doing `export odoo_pass=\&#39;&lt;your password&gt;\&#39;` &#39;
+                &#39;and run the script again&#39;)
+
+    def _connect(self):
+        &#34;&#34;&#34;
+            Connects to the Odoo instance and returns an XMLRPC object
+        &#34;&#34;&#34;
+
+        endpoint = &#34;%s/xmlrpc/2/object&#34; % (self.hostname)
+        if &#34;https&#34; in endpoint:
+            # Don&#39;t verify TLS Certificates
+            # The instance could be using a self-signed cert or a CA that is not trusted by the script
+            return xmlrpc.client.ServerProxy(endpoint, context=ssl._create_unverified_context())
+        return xmlrpc.client.ServerProxy(endpoint)
+
+    def _query(self, query_type, model, query, options={}):
+        &#34;&#34;&#34;
+            Verifies the `query_type` is supported by the API
+            and executes the API request on a new XMLRPC instance, returning the result
+        &#34;&#34;&#34;
+
+        if query_type not in self.QUERY_TYPES:
+            raise InputError(&#39;query_type&#39;,
+                &#39;Incorrect Type of query. Available types are: %s&#39; % (&#39;, &#39;.join(self.QUERY_TYPES)))
+
+        return self._connect().execute_kw(
+            self.database,
+            self.user_id,
+            self.user_pass,
+            model,      # This is the &#34;table&#34; that will be interacted with, in Odoo notation (eg, `res.partner` for `res_partner` in postgresql)
+            query_type, # Alters how Odoo will behave with the `query` and `options` fields
+            [query],    # query must be a list containing either a list or dict depending on the query_type
+            options)    # options will always be an optional dict, but the keys and values will change depending on query_type
+
+    def do_search(self, model, query=[], options={&#39;limit&#39;:0}):
+        &#34;&#34;&#34;
+            Searches the `model` for `query` with `options`
+            Defaults to search all records with no limit.
+
+            `query` is an Odoo domain, for example: `[(&#39;id&#39;,&#39;=&#39;,1)]`
+
+            `options` is a dictionary that supports the following keywords:
+                `limit` - Integer, doesn&#39;t return more than this value
+                `offset` - Integer, when used in conjunction with limit, it will paginate the search results
+
+            Returns a list of record database IDs that matched the `query`
+        &#34;&#34;&#34;
+
+        return self._query(&#39;search&#39;, model, query, options)
+
+    def do_create(self, model, query):
+        &#34;&#34;&#34;
+            Creates one or more records on `model` with the supplied `query`
+
+            `query` is a dictionary of the fields that are to be added, and
+            will fail if it is missing any fields with the attribute `required=True`
+
+            `query` has data type constraint requirements:
+                `Date`, `DateTime`, `Binary (base64)` fields are all presented as str()
+                Relational fields (`one2many`, `many2one`, `many2many`) follow the pattern defined at
+                https://www.odoo.com/documentation/9.0/reference/orm.html#openerp.models.Model.write
+
+            Unlike most other query_types, it does not take any options
+
+            Returns a list of record database IDs that were created
+        &#34;&#34;&#34;
+
+        return self._query(&#39;create&#39;, model, query)
+
+    def do_read(self, model, query, options={}):
+        &#34;&#34;&#34;
+            Reads one or more records on `model` with the supplied `query`
+
+            `query` is a list of record database IDs to read
+
+            `options` is a dictionary that supports the following keywords:
+                `fields` - A list of specific fields to read from, when unset all fields are read
+
+            Returns a list of dictionaries, where each dictionary is a record with the fields that were read
+        &#34;&#34;&#34;
+
+        return self._query(&#39;read&#39;, model, query, options)
+
+    def do_update(self, model, query, options={}):
+        &#34;&#34;&#34;
+            Updates one or more records on `model`, selected with `query`
+
+            `query` is a list of record database IDs to update
+
+            `options` is a dictionary that contains the fields to change, and their new values
+
+            Returns a list of record database IDs that were updated
+        &#34;&#34;&#34;
+
+        return self._query(&#39;write&#39;, model, query, options)
+
+    def do_delete(self, model, query):
+        &#34;&#34;&#34;
+            Deletes one or more records on `model`, selected with `query`
+
+            `query` is a list of record database IDs to delete
+
+            Unlike most other query_types, it does not take any options
+
+            Returns a list of record database IDs that were deleted
+        &#34;&#34;&#34;
+
+        return self._query(&#39;unlink&#39;, model, query)
+
+    def do_search_and_read(self, model, query, options={}):
+        &#34;&#34;&#34;
+            Shortcut for `do_read()` with the result of `do_search()` being used as the `query`
+
+            `query` is an Odoo domain, for example: `[(&#39;id&#39;,&#39;=&#39;,1)]`
+
+            `options` is a dictionary that supports the following keywords:
+                `fields` - A list of specific fields to read from, when unset all fields are read.
+
+            Returns a list of dictionaries, where each dictionary is a record with the fields that were read
+        &#34;&#34;&#34;
+
+        return self._query(&#39;search_read&#39;, model, query, options)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="xlsx-to-itad-odoo.api.API.QUERY_TYPES"><code class="name">var <span class="ident">QUERY_TYPES</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="xlsx-to-itad-odoo.api.API.do_create"><code class="name flex">
+<span>def <span class="ident">do_create</span></span>(<span>self, model, query)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates one or more records on <code>model</code> with the supplied <code>query</code></p>
+<p><code>query</code> is a dictionary of the fields that are to be added, and
+will fail if it is missing any fields with the attribute <code>required=True</code></p>
+<p><code>query</code> has data type constraint requirements:
+<code>Date</code>, <code>DateTime</code>, <code>Binary (base64)</code> fields are all presented as str()
+Relational fields (<code>one2many</code>, <code>many2one</code>, <code>many2many</code>) follow the pattern defined at
+<a href="https://www.odoo.com/documentation/9.0/reference/orm.html#openerp.models.Model.write">https://www.odoo.com/documentation/9.0/reference/orm.html#openerp.models.Model.write</a></p>
+<p>Unlike most other query_types, it does not take any options</p>
+<p>Returns a list of record database IDs that were created</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_create(self, model, query):
+    &#34;&#34;&#34;
+        Creates one or more records on `model` with the supplied `query`
+
+        `query` is a dictionary of the fields that are to be added, and
+        will fail if it is missing any fields with the attribute `required=True`
+
+        `query` has data type constraint requirements:
+            `Date`, `DateTime`, `Binary (base64)` fields are all presented as str()
+            Relational fields (`one2many`, `many2one`, `many2many`) follow the pattern defined at
+            https://www.odoo.com/documentation/9.0/reference/orm.html#openerp.models.Model.write
+
+        Unlike most other query_types, it does not take any options
+
+        Returns a list of record database IDs that were created
+    &#34;&#34;&#34;
+
+    return self._query(&#39;create&#39;, model, query)</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.api.API.do_delete"><code class="name flex">
+<span>def <span class="ident">do_delete</span></span>(<span>self, model, query)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deletes one or more records on <code>model</code>, selected with <code>query</code></p>
+<p><code>query</code> is a list of record database IDs to delete</p>
+<p>Unlike most other query_types, it does not take any options</p>
+<p>Returns a list of record database IDs that were deleted</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_delete(self, model, query):
+    &#34;&#34;&#34;
+        Deletes one or more records on `model`, selected with `query`
+
+        `query` is a list of record database IDs to delete
+
+        Unlike most other query_types, it does not take any options
+
+        Returns a list of record database IDs that were deleted
+    &#34;&#34;&#34;
+
+    return self._query(&#39;unlink&#39;, model, query)</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.api.API.do_read"><code class="name flex">
+<span>def <span class="ident">do_read</span></span>(<span>self, model, query, options={})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reads one or more records on <code>model</code> with the supplied <code>query</code></p>
+<p><code>query</code> is a list of record database IDs to read</p>
+<p><code>options</code> is a dictionary that supports the following keywords:
+<code>fields</code> - A list of specific fields to read from, when unset all fields are read</p>
+<p>Returns a list of dictionaries, where each dictionary is a record with the fields that were read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_read(self, model, query, options={}):
+    &#34;&#34;&#34;
+        Reads one or more records on `model` with the supplied `query`
+
+        `query` is a list of record database IDs to read
+
+        `options` is a dictionary that supports the following keywords:
+            `fields` - A list of specific fields to read from, when unset all fields are read
+
+        Returns a list of dictionaries, where each dictionary is a record with the fields that were read
+    &#34;&#34;&#34;
+
+    return self._query(&#39;read&#39;, model, query, options)</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.api.API.do_search"><code class="name flex">
+<span>def <span class="ident">do_search</span></span>(<span>self, model, query=[], options={'limit': 0})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Searches the <code>model</code> for <code>query</code> with <code>options</code>
+Defaults to search all records with no limit.</p>
+<p><code>query</code> is an Odoo domain, for example: <code>[('id','=',1)]</code></p>
+<p><code>options</code> is a dictionary that supports the following keywords:
+<code>limit</code> - Integer, doesn't return more than this value
+<code>offset</code> - Integer, when used in conjunction with limit, it will paginate the search results</p>
+<p>Returns a list of record database IDs that matched the <code>query</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_search(self, model, query=[], options={&#39;limit&#39;:0}):
+    &#34;&#34;&#34;
+        Searches the `model` for `query` with `options`
+        Defaults to search all records with no limit.
+
+        `query` is an Odoo domain, for example: `[(&#39;id&#39;,&#39;=&#39;,1)]`
+
+        `options` is a dictionary that supports the following keywords:
+            `limit` - Integer, doesn&#39;t return more than this value
+            `offset` - Integer, when used in conjunction with limit, it will paginate the search results
+
+        Returns a list of record database IDs that matched the `query`
+    &#34;&#34;&#34;
+
+    return self._query(&#39;search&#39;, model, query, options)</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.api.API.do_search_and_read"><code class="name flex">
+<span>def <span class="ident">do_search_and_read</span></span>(<span>self, model, query, options={})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shortcut for <code>do_read()</code> with the result of <code>do_search()</code> being used as the <code>query</code></p>
+<p><code>query</code> is an Odoo domain, for example: <code>[('id','=',1)]</code></p>
+<p><code>options</code> is a dictionary that supports the following keywords:
+<code>fields</code> - A list of specific fields to read from, when unset all fields are read.</p>
+<p>Returns a list of dictionaries, where each dictionary is a record with the fields that were read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_search_and_read(self, model, query, options={}):
+    &#34;&#34;&#34;
+        Shortcut for `do_read()` with the result of `do_search()` being used as the `query`
+
+        `query` is an Odoo domain, for example: `[(&#39;id&#39;,&#39;=&#39;,1)]`
+
+        `options` is a dictionary that supports the following keywords:
+            `fields` - A list of specific fields to read from, when unset all fields are read.
+
+        Returns a list of dictionaries, where each dictionary is a record with the fields that were read
+    &#34;&#34;&#34;
+
+    return self._query(&#39;search_read&#39;, model, query, options)</code></pre>
+</details>
+</dd>
+<dt id="xlsx-to-itad-odoo.api.API.do_update"><code class="name flex">
+<span>def <span class="ident">do_update</span></span>(<span>self, model, query, options={})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates one or more records on <code>model</code>, selected with <code>query</code></p>
+<p><code>query</code> is a list of record database IDs to update</p>
+<p><code>options</code> is a dictionary that contains the fields to change, and their new values</p>
+<p>Returns a list of record database IDs that were updated</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_update(self, model, query, options={}):
+    &#34;&#34;&#34;
+        Updates one or more records on `model`, selected with `query`
+
+        `query` is a list of record database IDs to update
+
+        `options` is a dictionary that contains the fields to change, and their new values
+
+        Returns a list of record database IDs that were updated
+    &#34;&#34;&#34;
+
+    return self._query(&#39;write&#39;, model, query, options)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="xlsx-to-itad-odoo" href="index.html">xlsx-to-itad-odoo</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="xlsx-to-itad-odoo.api.API" href="#xlsx-to-itad-odoo.api.API">API</a></code></h4>
+<ul class="two-column">
+<li><code><a title="xlsx-to-itad-odoo.api.API.QUERY_TYPES" href="#xlsx-to-itad-odoo.api.API.QUERY_TYPES">QUERY_TYPES</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.api.API.do_create" href="#xlsx-to-itad-odoo.api.API.do_create">do_create</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.api.API.do_delete" href="#xlsx-to-itad-odoo.api.API.do_delete">do_delete</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.api.API.do_read" href="#xlsx-to-itad-odoo.api.API.do_read">do_read</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.api.API.do_search" href="#xlsx-to-itad-odoo.api.API.do_search">do_search</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.api.API.do_search_and_read" href="#xlsx-to-itad-odoo.api.API.do_search_and_read">do_search_and_read</a></code></li>
+<li><code><a title="xlsx-to-itad-odoo.api.API.do_update" href="#xlsx-to-itad-odoo.api.API.do_update">do_update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
