@@ -31,7 +31,7 @@ class API:
     # The types of query that are able to be made to the Odoo instance
     QUERY_TYPES = ['search', 'create', 'read', 'write', 'unlink', 'search_read']
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
             Gathers Odoo information from the environment and parses the required fields
         """
@@ -65,7 +65,7 @@ class API:
                 'Set this by doing `export odoo_pass=\'<your password>\'` '
                 'and run the script again')
 
-    def _connect(self):
+    def _connect(self) -> xmlrpc.client.ServerProxy:
         """
             Connects to the Odoo instance and returns an XMLRPC object
         """
@@ -77,7 +77,7 @@ class API:
             return xmlrpc.client.ServerProxy(endpoint, context=ssl._create_unverified_context())
         return xmlrpc.client.ServerProxy(endpoint)
 
-    def _query(self, query_type, model, query, options={}):
+    def _query(self, query_type: str, model: str, query: list, options: dict = {}) -> list:
         """
             Verifies the `query_type` is supported by the API
             and executes the API request on a new XMLRPC instance, returning the result
@@ -96,7 +96,7 @@ class API:
             [query],    # query must be a list containing either a list or dict depending on the query_type
             options)    # options will always be an optional dict, but the keys and values will change depending on query_type
 
-    def do_search(self, model, query=[], options={'limit':0}):
+    def do_search(self, model: str, query: list = [], options: dict = {'limit': 0}) -> list:
         """
             Searches the `model` for `query` with `options`
             Defaults to search all records with no limit.
@@ -112,7 +112,7 @@ class API:
 
         return self._query('search', model, query, options)
 
-    def do_create(self, model, query):
+    def do_create(self, model: str, query: list) -> list:
         """
             Creates one or more records on `model` with the supplied `query`
 
@@ -131,7 +131,7 @@ class API:
 
         return self._query('create', model, query)
 
-    def do_read(self, model, query, options={}):
+    def do_read(self, model: str, query: list, options: dict = {}) -> list:
         """
             Reads one or more records on `model` with the supplied `query`
 
@@ -145,7 +145,7 @@ class API:
 
         return self._query('read', model, query, options)
 
-    def do_update(self, model, query, options={}):
+    def do_update(self, model: str, query: list, options: dict = {}) -> list:
         """
             Updates one or more records on `model`, selected with `query`
 
@@ -158,7 +158,7 @@ class API:
 
         return self._query('write', model, query, options)
 
-    def do_delete(self, model, query):
+    def do_delete(self, model: str, query: list) -> list:
         """
             Deletes one or more records on `model`, selected with `query`
 
@@ -171,7 +171,7 @@ class API:
 
         return self._query('unlink', model, query)
 
-    def do_search_and_read(self, model, query, options={}):
+    def do_search_and_read(self, model: str, query: list, options: dict = {}) -> list:
         """
             Shortcut for `do_read()` with the result of `do_search()` being used as the `query`
 

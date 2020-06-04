@@ -23,6 +23,7 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/dtodd-wipeos/xlsx-to-itad-odoo/blob/0fb9ed425228ba9ac132fed71442920c50f9bf6a/exceptions.py#L0-L20" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -42,7 +43,7 @@ class InputError(Exception):
                 for how to fix it
     &#34;&#34;&#34;
 
-    def __init__(self, field, message):
+    def __init__(self, field: str, message: str) -&gt; Exception:
         self.field = field
         self.message = message</code></pre>
 </details>
@@ -58,7 +59,7 @@ class InputError(Exception):
 <dl>
 <dt id="xlsx-to-itad-odoo.exceptions.InputError"><code class="flex name class">
 <span>class <span class="ident">InputError</span></span>
-<span>(</span><span>field, message)</span>
+<span>(</span><span>field: str, message: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Raises an exception when some input value is not correct.</p>
@@ -69,6 +70,7 @@ for how to fix it</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/dtodd-wipeos/xlsx-to-itad-odoo/blob/0fb9ed425228ba9ac132fed71442920c50f9bf6a/exceptions.py#L10-L21" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class InputError(Exception):
     &#34;&#34;&#34;
@@ -79,7 +81,7 @@ for how to fix it</p></div>
                 for how to fix it
     &#34;&#34;&#34;
 
-    def __init__(self, field, message):
+    def __init__(self, field: str, message: str) -&gt; Exception:
         self.field = field
         self.message = message</code></pre>
 </details>
