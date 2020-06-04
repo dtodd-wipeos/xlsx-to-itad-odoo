@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2020-06-04
+
+### Added
+
+- Dependency for [pdoc3](https://pdoc3.github.io/pdoc/) to allow documentation generation from docstrings
+- Script to generate the documentation (apparently any needed environment variables for normal operation have to be defined)
+
+### Changed
+
+- Configuration options have moved (again!) to `config.sh`. I don't have intentions of moving it again, but we'll see.
+
 ## [1.2.1] - 2020-05-29
 
 ### Changed

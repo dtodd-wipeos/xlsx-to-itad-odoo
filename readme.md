@@ -14,7 +14,7 @@ The types of records that are created are:
 
 ## Version
 
-The current version is 1.2.1. Please check changelog.md for more information.
+The current version is 1.2.2. Please check changelog.md for more information.
 
 ## Usage
 
