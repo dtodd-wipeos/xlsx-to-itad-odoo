@@ -23,7 +23,7 @@ class Record:
         one or more Record objects, or None
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: dict) -> None:
         self.serial = str(kwargs.get('serial'))
         self.asset_tag = str(kwargs.get('asset_tag'))
         self.make = str(kwargs.get('make'))
@@ -40,13 +40,13 @@ class Record:
             # https://qrl.dell.com/H6FND42
             self.serial = self.serial.split('/')[-1]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
             Returns the serial number of this Record instance
         """
         return self.serial
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
             Used when iterating over a list of Record objects
 
